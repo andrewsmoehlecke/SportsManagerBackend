@@ -1,4 +1,5 @@
 package com.api.sportsmanager.entities;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,7 +9,7 @@ public class Time {
     private long id_time;
     private String nomeTime;
     private int numVitoria;
-    private int numEmpates;
+    private int numEmpate;
     private int numDerrota;
     private LocalDate dataCriacao;
     private List<UsuarioTime> usuarioTime;
@@ -21,7 +22,7 @@ public class Time {
         this.id_time = 0;
         this.nomeTime = "";
         this.numVitoria = 0;
-        this.numEmpates = 0;
+        this.numEmpate = 0;
         this.numDerrota = 0;
         this.dataCriacao = LocalDate.now();
         this.usuarioTime = new ArrayList<UsuarioTime>();
@@ -31,13 +32,13 @@ public class Time {
         this.treino = new ArrayList<Treino>();
     }
 
-    public Time(long id_time, String nomeTime, int numVitoria, int numEmpates, int numDerrota, LocalDate dataCriacao,
+    public Time(long id_time, String nomeTime, int numVitoria, int numEmpate, int numDerrota, LocalDate dataCriacao,
             List<UsuarioTime> usuarioTime, List<EsporteTime> esporteTime, List<TimeJogo> timeJogo,
             List<CampeonatoTime> campeonatoTime, List<Treino> treino) {
         this.id_time = id_time;
         this.nomeTime = nomeTime;
         this.numVitoria = numVitoria;
-        this.numEmpates = numEmpates;
+        this.numEmpate = numEmpate;
         this.numDerrota = numDerrota;
         this.dataCriacao = dataCriacao;
         this.usuarioTime = usuarioTime;
@@ -103,12 +104,20 @@ public class Time {
         this.numVitoria = numVitoria;
     }
 
-    public int getNumEmpates() {
-        return numEmpates;
+    public int getNumEmpate() {
+        return numEmpate;
     }
 
-    public void setNumEmpates(int numEmpates) {
-        this.numEmpates = numEmpates;
+    public void setNumEmpate(int numEmpate) {
+        this.numEmpate = numEmpate;
+    }
+
+    public List<CampeonatoTime> getCampeonatoTime() {
+        return campeonatoTime;
+    }
+
+    public void setCampeonatoTime(List<CampeonatoTime> campeonatoTime) {
+        this.campeonatoTime = campeonatoTime;
     }
 
     public int getNumDerrota() {
@@ -131,7 +140,7 @@ public class Time {
     public String toString() {
         return "Time [campeonatoTime=" + campeonatoTime + ", dataCriacao=" + dataCriacao + ", esporteTime="
                 + esporteTime + ", id_time=" + id_time + ", nomeTime=" + nomeTime + ", numDerrota=" + numDerrota
-                + ", numEmpates=" + numEmpates + ", numVitoria=" + numVitoria + ", timeJogo=" + timeJogo + ", treino="
+                + ", numEmpates=" + numEmpate + ", numVitoria=" + numVitoria + ", timeJogo=" + timeJogo + ", treino="
                 + treino + ", usuarioTime=" + usuarioTime + "]";
     }
 
