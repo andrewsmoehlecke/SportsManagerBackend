@@ -17,7 +17,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/time")
 public class TimeController {
 
-    @GetMapping
+    // Crud
+
+    // Criar novo time
+    @PostMapping
+    public ResponseEntity<Time> post(@RequestBody Time time) {
+        // just example (not working)
+        // Post Time here
+        Time t = new Time();
+        return new ResponseEntity<>(t, HttpStatus.OK);
+    }
+
+    // Buscar por todos os times
+    @GetMapping()
     public ResponseEntity<Time> get() {
         // just example (not working)
         // Get time here
@@ -25,15 +37,16 @@ public class TimeController {
         return new ResponseEntity<>(t, HttpStatus.OK);
     }
 
-    @PostMapping
-    public ResponseEntity<Time> post(@RequestBody Time time) {
+    // Buscar time pelo id
+    @GetMapping("/{id}")
+    public ResponseEntity<Time> getOne(@PathVariable long id) {
         // just example (not working)
-        // Post Time here
-
+        // Get time here
         Time t = new Time();
         return new ResponseEntity<>(t, HttpStatus.OK);
     }
 
+    // atualizar time pelo id
     @PutMapping("/{id}")
     public ResponseEntity<Time> put(@PathVariable long id, @RequestBody Time time) {
         // just example (not working)
@@ -42,6 +55,7 @@ public class TimeController {
         return new ResponseEntity<>(t, HttpStatus.OK);
     }
 
+    // deletar time pelo id
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable long id) {
         // just example (not working)
