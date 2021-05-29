@@ -1,5 +1,8 @@
 package com.api.sportsmanager.controller;
 
+import java.util.List;
+
+import com.api.sportsmanager.dao.TimeDao;
 import com.api.sportsmanager.entities.Time;
 
 import org.springframework.http.HttpStatus;
@@ -17,7 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/time")
 public class TimeController {
 
-    // Crud
+    private TimeDao timeDao;
+
+    public TimeController(TimeDao td) {
+        this.timeDao = td;
+    }
 
     // Criar novo time
     @PostMapping
@@ -30,11 +37,10 @@ public class TimeController {
 
     // Buscar por todos os times
     @GetMapping()
-    public ResponseEntity<Time> get() {
-        // just example (not working)
-        // Get time here
-        Time t = new Time();
-        return new ResponseEntity<>(t, HttpStatus.OK);
+    public ResponseEntity<List<Time>> get() {
+        List<Time> allTimes = timeDao.getTime();
+        // Time t = new Time();
+        return new ResponseEntity<>(allTimes, HttpStatus.OK);
     }
 
     // Buscar time pelo id

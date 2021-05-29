@@ -1,6 +1,6 @@
 package com.api.sportsmanager.entities;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +11,7 @@ public class Time {
     private int numVitoria;
     private int numEmpate;
     private int numDerrota;
-    private LocalDate dataCriacao;
+    private LocalDateTime dataCriacao;
     private List<UsuarioTime> usuarioTime;
     private List<EsporteTime> esporteTime;
     private List<TimeJogo> timeJogo;
@@ -24,7 +24,7 @@ public class Time {
         this.numVitoria = 0;
         this.numEmpate = 0;
         this.numDerrota = 0;
-        this.dataCriacao = LocalDate.now();
+        this.dataCriacao = LocalDateTime.now();
         this.usuarioTime = new ArrayList<UsuarioTime>();
         this.esporteTime = new ArrayList<EsporteTime>();
         this.timeJogo = new ArrayList<TimeJogo>();
@@ -32,7 +32,7 @@ public class Time {
         this.treino = new ArrayList<Treino>();
     }
 
-    public Time(long id_time, String nomeTime, int numVitoria, int numEmpate, int numDerrota, LocalDate dataCriacao,
+    public Time(long id_time, String nomeTime, int numVitoria, int numEmpate, int numDerrota, LocalDateTime dataCriacao,
             List<UsuarioTime> usuarioTime, List<EsporteTime> esporteTime, List<TimeJogo> timeJogo,
             List<CampeonatoTime> campeonatoTime, List<Treino> treino) {
         this.id_time = id_time;
@@ -128,11 +128,11 @@ public class Time {
         this.numDerrota = numDerrota;
     }
 
-    public LocalDate getDataCriacao() {
+    public LocalDateTime getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(LocalDate dataCriacao) {
+    public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 
