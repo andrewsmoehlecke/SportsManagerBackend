@@ -23,11 +23,11 @@ public class ConexaoMysql {
 	private static final Logger log = LoggerFactory.getLogger(ConexaoMysql.class);
 
 	public ConexaoMysql() {
-		this.ip = "";
-		this.porta = "";
-		this.login = "";
+		this.ip = "localhost";
+		this.porta = "3306";
+		this.login = "root";
 		this.senha = "";
-		this.nomeDb = "";
+		this.nomeDb = "sports_manager";
 	}
 
 	public ConexaoMysql(String ip, String porta, String login, String senha, String nomeDb) {
@@ -44,8 +44,6 @@ public class ConexaoMysql {
 			String endereco = "jdbc:mysql://" + this.ip + ":" + this.porta + "/" + this.nomeDb;
 
 			this.conexao = DriverManager.getConnection(endereco, this.login, this.senha);
-			// this.conexao = DriverManager.getConnection("jdbc:mysql://localhost:",
-			// this.login, this.senha);
 
 			this.stat = conexao.createStatement();
 			log.info("Connection opened");

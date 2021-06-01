@@ -6,7 +6,7 @@ import java.util.List;
 
 public class Time {
 
-    private long id_time;
+    private long idTime;
     private String nomeTime;
     private int numVitoria;
     private int numEmpate;
@@ -19,7 +19,7 @@ public class Time {
     private List<Treino> treino;
 
     public Time() {
-        this.id_time = 0;
+        this.idTime = 0;
         this.nomeTime = "";
         this.numVitoria = 0;
         this.numEmpate = 0;
@@ -35,7 +35,7 @@ public class Time {
     public Time(long id_time, String nomeTime, int numVitoria, int numEmpate, int numDerrota, LocalDateTime dataCriacao,
             List<UsuarioTime> usuarioTime, List<EsporteTime> esporteTime, List<TimeJogo> timeJogo,
             List<CampeonatoTime> campeonatoTime, List<Treino> treino) {
-        this.id_time = id_time;
+        this.idTime= id_time;
         this.nomeTime = nomeTime;
         this.numVitoria = numVitoria;
         this.numEmpate = numEmpate;
@@ -89,11 +89,11 @@ public class Time {
     }
 
     public long getId_time() {
-        return id_time;
+        return idTime;
     }
 
     public void setId_time(long id_time) {
-        this.id_time = id_time;
+        this.idTime = id_time;
     }
 
     public int getNumVitoria() {
@@ -139,7 +139,7 @@ public class Time {
     @Override
     public String toString() {
         return "Time [campeonatoTime=" + campeonatoTime + ", dataCriacao=" + dataCriacao + ", esporteTime="
-                + esporteTime + ", id_time=" + id_time + ", nomeTime=" + nomeTime + ", numDerrota=" + numDerrota
+                + esporteTime + ", idTime=" + idTime + ", nomeTime=" + nomeTime + ", numDerrota=" + numDerrota
                 + ", numEmpates=" + numEmpate + ", numVitoria=" + numVitoria + ", timeJogo=" + timeJogo + ", treino="
                 + treino + ", usuarioTime=" + usuarioTime + "]";
     }
