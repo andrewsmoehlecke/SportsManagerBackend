@@ -45,9 +45,11 @@ public class TimeController {
     @GetMapping()
     public ResponseEntity<List<Time>> get() {
         log.info("GET /time");
+        timeDao.postTime(new Time());
 
-        List<Time> allTimes = timeDao.findAll();
-        return new ResponseEntity<>(allTimes, HttpStatus.OK);
+        // List<Time> allTimes = timeDao.findAll();
+        // return new ResponseEntity<>(allTimes, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     // Buscar time pelo id

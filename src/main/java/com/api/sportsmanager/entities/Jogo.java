@@ -6,8 +6,8 @@ public class Jogo {
     private long idJogo;
     private int pontuacaoTime1;
     private int pontuacaoTime2;
-    private List<TimeJogo> timeJogo;
     private Campeonato campeonato;
+    private List<TimeJogo> timeJogo;
 
     public Jogo() {
         this.idJogo = 0;

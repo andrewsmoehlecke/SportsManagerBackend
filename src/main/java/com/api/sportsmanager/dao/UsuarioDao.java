@@ -1,10 +1,9 @@
 package com.api.sportsmanager.dao;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Date;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,24 +11,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.api.sportsmanager.entities.Time;
+import com.api.sportsmanager.entities.Usuario;
 import com.api.sportsmanager.persistencia.ConexaoMysql;
 import com.api.sportsmanager.util.ConversaoDeData;
 
 @Service
-public class TimeDao {
-
-    private static final Logger log = LoggerFactory.getLogger(TimeDao.class);
+public class UsuarioDao {
+    private static final Logger log = LoggerFactory.getLogger(UsuarioDao.class);
     
     private ConexaoMysql conexao = new ConexaoMysql();
-
-    public List<Time> findAll() {
-
+    
+    public List<Usuario> findAll() {
         this.conexao.abrirConexao();
-        String query = "SELECT * FROM `time`";
+        String query = "SELECT * FROM `usuarios`";
         try {
             // List to return results
-            List<Time> allTimes = new ArrayList<Time>();
+            List<Usuario> allTimes = new ArrayList<Usuario>();
 
             PreparedStatement ps = this.conexao.getConexao().prepareStatement(query);
             ResultSet rs = ps.executeQuery();
@@ -37,19 +34,9 @@ public class TimeDao {
             // How to take in DB
             while (rs.next()) {
 
-                Time t = new Time(
-                    rs.getLong("id_time"),
-                    rs.getString("nome_time"),
-                    rs.getInt("num_vitoria"),
-                    rs.getInt("num_empate"),
-                    rs.getInt("num_derrota"),
-                    LocalDateTime.parse(rs.getString("data_criacao").replace(" ", "T")), 
-                    null, 
-                    null, 
-                    null, 
-                    null
-                );
-                allTimes.add(t);
+                Usuario u = new Usuario(rs.getLong("id_usuario"), rs.getString("username"), rs.getString("email"),
+                        rs.getString("senha"), ConversaoDeData.dateToLocalDateTime(rs.getDate("data_criacao")), null);
+                allTimes.add(u);
             }
 
             return allTimes;
@@ -61,33 +48,23 @@ public class TimeDao {
         }
     }
     
-    public Time findById(long id) {
+    public Usuario findById(long id) {
         this.conexao.abrirConexao();
 
-        String query = "SELECT * FROM `time` WHERE id_time=?";
+        String query = "SELECT * FROM `usuarios` WHERE id_usuario=?";
         // How to take in DB
         try {
             PreparedStatement ps = this.conexao.getConexao().prepareStatement(query);
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
 
-            Time t = null;
+            Usuario u = new Usuario();
             if (rs.next()) {
 
-                t = new Time(
-                    rs.getLong("id_time"),
-                    rs.getString("nome_time"),
-                    rs.getInt("num_vitoria"),
-                    rs.getInt("num_empate"),
-                    rs.getInt("num_derrota"),
-                    LocalDateTime.parse(rs.getString("data_criacao").replace(" ", "T")), 
-                    null, 
-                    null, 
-                    null, 
-                    null
-                );
+                u = new Usuario(rs.getLong("id_usuario"), rs.getString("username"), rs.getString("email"),
+                        rs.getString("senha"), ConversaoDeData.dateToLocalDateTime(rs.getDate("data_criacao")), null);
             }
-            return t;
+            return u;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
@@ -95,20 +72,19 @@ public class TimeDao {
             conexao.fecharConexao();
         }
     }
-    
-    public void postTime(Time time) {
+
+    public void postUsuario(Usuario u) {
 
         this.conexao.abrirConexao();
-        String query = "INSERT INTO `time` VALUES(null,?,?,?,?,?) ";
+        String query = "INSERT INTO `usuarios` VALUES(null,?,?,?,?) ";
         try {
             PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
-            Date dt = ConversaoDeData.localDateTimeToDate(time.getDataCriacao());
+            Date dt = ConversaoDeData.localDateTimeToDate(u.getDataCriacao());
 
-            st.setString(1, time.getNomeTime());
-            st.setInt(2, time.getNumVitoria());
-            st.setInt(3, time.getNumEmpate());
-            st.setInt(4, time.getNumDerrota());
-            st.setDate(5, dt);
+            st.setString(1, u.getUsername());
+            st.setString(2, u.getEmail());
+            st.setString(3, u.getSenha());
+            st.setDate(4, dt);
 
             st.executeUpdate();
         } catch (SQLException e) {
@@ -117,22 +93,21 @@ public class TimeDao {
             conexao.fecharConexao();
         }
     }
-    
-    public void putTime(Time time, long idTime) {
+
+    public void putUsuario(Usuario u, long idUsuario) {
 
         this.conexao.abrirConexao();
-        String query = "INSERT INTO `time` VALUES(null,?,?,?,?,?) WHERE id_time=?";
+        String query = "INSERT INTO `usuarios` VALUES(null,?,?,?,?) WHERE id_usuario=?";
         try {
             PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
             // Convert from LocalDateTime to Date
-            Date dt = ConversaoDeData.localDateTimeToDate(time.getDataCriacao());
+            Date dt = ConversaoDeData.localDateTimeToDate(u.getDataCriacao());
 
-            st.setString(1, time.getNomeTime());
-            st.setInt(2, time.getNumVitoria());
-            st.setInt(3, time.getNumEmpate());
-            st.setInt(4, time.getNumDerrota());
-            st.setDate(5, dt);
-            st.setLong(6, idTime);
+            st.setString(1, u.getUsername());
+            st.setString(2, u.getEmail());
+            st.setString(3, u.getSenha());
+            st.setDate(4, dt);
+            st.setLong(5, idUsuario);
 
             st.executeUpdate();
         } catch (SQLException e) {
@@ -141,10 +116,10 @@ public class TimeDao {
             conexao.fecharConexao();
         }
     }
-    
+
     public void delete(long id) {
         this.conexao.abrirConexao();
-        String query = "DELETE FROM `time` WHERE id_time=?";
+        String query = "DELETE FROM `usuarios` WHERE id_usuario=?";
         try {
             PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
             st.setLong(1, id);

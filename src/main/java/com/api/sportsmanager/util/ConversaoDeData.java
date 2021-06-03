@@ -6,11 +6,11 @@ import java.time.ZoneId;
 
 public class ConversaoDeData {
 
-    public Date localDateTimeToDate(LocalDateTime data) {
+    public static Date localDateTimeToDate(LocalDateTime data) {
         return Date.valueOf(data.toLocalDate());
     }
     
-    public LocalDateTime dateToLocalDateTime(Date data) {
+    public static LocalDateTime dateToLocalDateTime(Date data) {
         return data.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
     }
 }
