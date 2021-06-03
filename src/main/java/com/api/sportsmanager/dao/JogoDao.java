@@ -35,18 +35,17 @@ public class JogoDao {
 
             // How to take in DB
             while (rs.next()) {
+                CampeonatoDao dao = new CampeonatoDao();
 
-                // https://www.youtube.com/watch?v=JW9w1nI6Q3g  2:04:56
-                // Campeonato c ;
-                // Jogo j = new Jogo(
-                //     rs.getLong("id_jogo"),
-                //     rs.getInt("pontuacao_time_1"),
-                //     rs.getInt("pontuacao_time_2"),
-                //     rs.getLong("id_campeonato"),
-                //     null
-                // );
+                Jogo j = new Jogo(
+                    rs.getLong("id_jogo"),
+                    rs.getInt("pontuacao_time_1"),
+                    rs.getInt("pontuacao_time_2"),
+                    null,
+                    dao.findById(rs.getLong("id_campeonato"))
+                );
 
-                // allJogos.add(j);
+                allJogos.add(j);
             }
         } catch (SQLException error) {
             error.printStackTrace();
@@ -68,18 +67,11 @@ public class JogoDao {
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
 
-
             if (rs.next()) {
+                CampeonatoDao dao = new CampeonatoDao();
 
-                 // https://www.youtube.com/watch?v=JW9w1nI6Q3g  2:04:56
-                // Campeonato c ;
-                // Jogo j = new Jogo(
-                //     rs.getLong("id_jogo"),
-                //     rs.getInt("pontuacao_time_1"),
-                //     rs.getInt("pontuacao_time_2"),
-                //     rs.getLong("id_campeonato"),
-                //     null
-                // );
+                j = new Jogo(rs.getLong("id_jogo"), rs.getInt("pontuacao_time_1"), rs.getInt("pontuacao_time_2"), null,
+                        dao.findById(rs.getLong("id_campeonato")));
             }
         } catch (SQLException error) {
             error.printStackTrace();
@@ -87,5 +79,59 @@ public class JogoDao {
             conexao.fecharConexao();
         }
         return j;
+    }
+    
+    public void postJogo(Jogo j) {
+
+        this.conexao.abrirConexao();
+        String query = "INSERT INTO `jogos` VALUES(null,?,?,?)";
+        try {
+            PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
+
+            st.setInt(1, j.getPontuacaoTime1());
+            st.setInt(1, j.getPontuacaoTime2());
+            st.setLong(3, j.getCampeonato().getIdCampeonato());
+            
+            st.executeUpdate();
+        } catch (SQLException error) {
+            error.printStackTrace();
+        } finally {
+            conexao.fecharConexao();
+        }
+    }
+
+    public void putJogo(Jogo j, long idEsporte) {
+
+        this.conexao.abrirConexao();
+        String query = "UPDATE `jogos` SET pontuacao_time_1=?, pontuacao_time_2=?, id_campeonato=?  WHERE id_jogo=?";
+        try {
+            PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
+
+            st.setInt(1, j.getPontuacaoTime1());
+            st.setInt(1, j.getPontuacaoTime2());
+            st.setLong(3, j.getCampeonato().getIdCampeonato());
+
+            st.executeUpdate();
+        } catch (SQLException error) {
+            error.printStackTrace();
+        } finally {
+            conexao.fecharConexao();
+        }
+    }
+
+
+    public void delete(long id) {
+        this.conexao.abrirConexao();
+        String query = "DELETE FROM `jogos` WHERE id_jogo=?";
+        try {
+            PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
+            st.setLong(1, id);
+
+            st.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            conexao.fecharConexao();
+        }
     }
 }

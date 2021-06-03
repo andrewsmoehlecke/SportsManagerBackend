@@ -97,7 +97,7 @@ public class UsuarioDao {
     public void putUsuario(Usuario u, long idUsuario) {
 
         this.conexao.abrirConexao();
-        String query = "INSERT INTO `usuarios` VALUES(null,?,?,?,?) WHERE id_usuario=?";
+        String query = "UPDATE `usuarios` SET username=?, email=?, senha=?, data_criacao=? WHERE id_usuario=?";
         try {
             PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
             // Convert from LocalDateTime to Date

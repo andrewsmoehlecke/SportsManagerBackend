@@ -121,7 +121,7 @@ public class TimeDao {
     public void putTime(Time time, long idTime) {
 
         this.conexao.abrirConexao();
-        String query = "INSERT INTO `time` VALUES(null,?,?,?,?,?) WHERE id_time=?";
+        String query = "UPDATE `time` SET nome=?, num_vitoria=?, num_empate=?, num_derrota=?, data_criacao=? WHERE id_time=?";
         try {
             PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
             // Convert from LocalDateTime to Date

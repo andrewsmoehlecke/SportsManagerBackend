@@ -1,7 +1,7 @@
 package com.api.sportsmanager.dao;
 
 import org.springframework.stereotype.Service;
-
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,36 +10,40 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
+import com.api.sportsmanager.entities.Campeonato;
 import com.api.sportsmanager.entities.Esporte;
+import com.api.sportsmanager.entities.FuncaoTime;
 import com.api.sportsmanager.persistencia.ConexaoMysql;
+import com.api.sportsmanager.util.ConversaoDeData;
 
 @Service
-public class EsporteDao {
+public class FuncaoTimeDao {
     private static final Logger log = LoggerFactory.getLogger(EsporteDao.class);
     
     private ConexaoMysql conexao = new ConexaoMysql();
 
-    public List<Esporte> findAll() {
+    public List<FuncaoTime> findAll() {
         this.conexao.abrirConexao();
-        String query = "SELECT * FROM `esporte`";
+        String query = "SELECT * FROM `funcao_time`";
         try {
             // List to return results
-            List<Esporte> allTimes = new ArrayList<Esporte>();
+            List<FuncaoTime> listFuncaoTime = new ArrayList<FuncaoTime>();
 
             PreparedStatement ps = this.conexao.getConexao().prepareStatement(query);
             ResultSet rs = ps.executeQuery();
 
             // How to take in DB
             while (rs.next()) {
+                EsporteDao esporteDao = new EsporteDao();
 
-                Esporte e = new Esporte(rs.getLong("id_esporte"), rs.getString("nome"), rs.getString("logo"),
-                        rs.getString("plataforma"), null, null, null);
-
-                allTimes.add(e);
+                FuncaoTime ft = new FuncaoTime(rs.getLong("id_funcao_time"), rs.getString("nome"),
+                        esporteDao.findById(rs.getLong("id_esporte")), null);
+                listFuncaoTime.add(ft);
             }
 
-            return allTimes;
+            return listFuncaoTime;
         } catch (SQLException error) {
             error.printStackTrace();
             return null;
@@ -48,12 +52,12 @@ public class EsporteDao {
         }
     }
     
-    public Esporte findById(long id) {
+    public FuncaoTime findById(long id) {
         this.conexao.abrirConexao();
 
-        String query = "SELECT * FROM `esportes` WHERE id_esporte=?";
+        String query = "SELECT * FROM `funcao_time` WHERE id_funcao_time=?";
 
-        Esporte e = null;
+        FuncaoTime ft = null;
         // How to take in DB
         try {
             PreparedStatement ps = this.conexao.getConexao().prepareStatement(query);
@@ -61,27 +65,46 @@ public class EsporteDao {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                e = new Esporte(rs.getLong("id_esporte"), rs.getString("nome"), rs.getString("logo"),
-                        rs.getString("plataforma"), null, null, null);
+                EsporteDao esporteDao = new EsporteDao();
+
+                ft = new FuncaoTime(rs.getLong("id_funcao_time"), rs.getString("nome"),
+                        esporteDao.findById(rs.getLong("id_esporte")), null);
             }
         } catch (SQLException error) {
             error.printStackTrace();
         } finally {
             conexao.fecharConexao();
         }
-        return e;
+        return ft;
     }
-    
-    public void postUsuario(Esporte e) {
+
+    public void postFuncaoTime(FuncaoTime ft) {
 
         this.conexao.abrirConexao();
-        String query = "INSERT INTO `esporte` VALUES(null,?,?,?) ";
+        String query = "INSERT INTO `funcao_time` VALUES(null,?,?)";
         try {
             PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
 
-            st.setString(1, e.getNome());
-            st.setString(2, e.getLogo());
-            st.setString(3, e.getPlataforma());
+            st.setString(1, ft.getNome());
+            st.setLong(2, ft.getEsporte().getIdEsporte());
+
+            st.executeUpdate();
+        } catch (SQLException error) {
+            error.printStackTrace();
+        } finally {
+            conexao.fecharConexao();
+        }
+    }
+    
+    public void putFuncaoTime(FuncaoTime ft, long idFuncaoTime) {
+
+        this.conexao.abrirConexao();
+        String query = "UPDATE `funcao_time` SET nome=?, id_esporte=? WHERE id_funcao_time=?";
+        try {
+            PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
+
+            st.setString(1, ft.getNome());
+            st.setLong(2, ft.getEsporte().getIdEsporte());
 
             st.executeUpdate();
         } catch (SQLException error) {
@@ -91,30 +114,9 @@ public class EsporteDao {
         }
     }
 
-    public void putEsporte(Esporte e, long idEsporte) {
-
-        this.conexao.abrirConexao();
-        String query = "UPDATE `esporte` SET nome=?, logo=?, plataforma=? WHERE id_esporte=?";
-        try {
-            PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
-
-            st.setString(1, e.getNome());
-            st.setString(2, e.getLogo());
-            st.setString(3, e.getPlataforma());
-            st.setLong(4, idEsporte);
-
-            st.executeUpdate();
-        } catch (SQLException error) {
-            error.printStackTrace();
-        } finally {
-            conexao.fecharConexao();
-        }
-    }
-
-    
     public void delete(long id) {
         this.conexao.abrirConexao();
-        String query = "DELETE FROM `esporte` WHERE id_esporte=?";
+        String query = "DELETE FROM `funcao_time` WHERE id_funcao_time=?";
         try {
             PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
             st.setLong(1, id);
