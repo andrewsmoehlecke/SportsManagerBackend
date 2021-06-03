@@ -34,11 +34,11 @@ public class TimeController {
 
     // Criar novo time
     @PostMapping
-    public ResponseEntity<Time> post(@RequestBody Time time) {
-        // just example (not working)
-        // Post Time here
-        Time t = new Time();
-        return new ResponseEntity<>(t, HttpStatus.OK);
+    public ResponseEntity post(@RequestBody Time time) {
+        log.info("Post /time");
+
+        timeDao.postTime(time);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     // Buscar por todos os times
@@ -46,7 +46,7 @@ public class TimeController {
     public ResponseEntity<List<Time>> get() {
         log.info("GET /time");
 
-        List<Time> allTimes = timeDao.getTime();
+        List<Time> allTimes = timeDao.findAll();
         return new ResponseEntity<>(allTimes, HttpStatus.OK);
     }
 
@@ -54,7 +54,8 @@ public class TimeController {
     @GetMapping("/{id}")
     public ResponseEntity<Time> getOne(@PathVariable long id) {
         log.info("GET /time/" + id);
-        Time t = timeDao.getTimeById(id);
+
+        Time t = timeDao.findById(id);
         return new ResponseEntity<>(t, HttpStatus.OK);
     }
 

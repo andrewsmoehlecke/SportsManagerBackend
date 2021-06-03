@@ -1,5 +1,6 @@
 package com.api.sportsmanager.entities;
-import java.time.LocalDate;
+
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -8,7 +9,7 @@ public class Usuario {
     private String username;
     private String email;
     private String senha;
-    private LocalDate dataCriacao;
+    private LocalDateTime dataCriacao;
     private List<UsuarioTime> usuarioTime;
 
     public Usuario() {
@@ -16,11 +17,11 @@ public class Usuario {
         this.username = "";
         this.email = "";
         this.senha = "";
-        this.dataCriacao = LocalDate.now();
+        this.dataCriacao = LocalDateTime.now();
         this.setUsuarioTime(new ArrayList<UsuarioTime>());
     }
 
-    public Usuario(long idUsuario, String username, String email, String senha, LocalDate dataCriacao,
+    public Usuario(long idUsuario, String username, String email, String senha, LocalDateTime dataCriacao,
             List<UsuarioTime> usuarioTime) {
         this.idUsuario = idUsuario;
         this.username = username;
@@ -70,11 +71,11 @@ public class Usuario {
         this.senha = senha;
     }
 
-    public LocalDate getDataCriacao() {
+    public LocalDateTime getDataCriacao() {
         return dataCriacao;
     }
 
-    public void setDataCriacao(LocalDate dataCriacao) {
+    public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
 

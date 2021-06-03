@@ -2,9 +2,7 @@ package com.api.sportsmanager.persistencia;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,8 +14,6 @@ public class ConexaoMysql {
 	private String senha;
 	private String nomeDb;
 
-	private ResultSet resultSet;
-	private Statement stat;
 	private Connection conexao;
 
 	private static final Logger log = LoggerFactory.getLogger(ConexaoMysql.class);
@@ -44,8 +40,7 @@ public class ConexaoMysql {
 			String endereco = "jdbc:mysql://" + this.ip + ":" + this.porta + "/" + this.nomeDb;
 
 			this.conexao = DriverManager.getConnection(endereco, this.login, this.senha);
-
-			this.stat = conexao.createStatement();
+			
 			log.info("Connection opened");
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
@@ -54,7 +49,7 @@ public class ConexaoMysql {
 
 	public void fecharConexao() {
 		try {
-			if (!this.conexao.isClosed()) {
+			if (this.conexao != null && !this.conexao.isClosed()) {
 				this.conexao.close();
 				log.info("Connection closed");
 			}
@@ -63,13 +58,8 @@ public class ConexaoMysql {
 		}
 	}
 
-	public ResultSet getResultSet(String query) {
-		try {
-			this.resultSet = stat.executeQuery(query);
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return resultSet;
+	public Connection getConexao() {
+		return this.conexao;
 	}
 
 	public void isClosed() {

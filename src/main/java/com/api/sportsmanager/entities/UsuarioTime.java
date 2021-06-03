@@ -1,9 +1,10 @@
 package com.api.sportsmanager.entities;
-import java.time.LocalDate;
+
+import java.time.LocalDateTime;
 
 public class UsuarioTime {
     private long idUsuarioTime;
-    private LocalDate dataEntrada;
+    private LocalDateTime dataEntrada;
     private Usuario usuario;
     private Time time;
     private String cargo;
@@ -11,14 +12,14 @@ public class UsuarioTime {
 
     public UsuarioTime() {
         this.idUsuarioTime = 0;
-        this.dataEntrada = LocalDate.now();
+        this.dataEntrada = LocalDateTime.now();
         this.usuario = new Usuario();
         this.time = new Time();
         this.cargo = "";
         this.funcaoTime = new FuncaoTime();
     }
 
-    public UsuarioTime(long idUsuarioTime, LocalDate dataEntrada, Usuario usuario, Time time, String cargo, FuncaoTime funcaoTime) {
+    public UsuarioTime(long idUsuarioTime, LocalDateTime dataEntrada, Usuario usuario, Time time, String cargo, FuncaoTime funcaoTime) {
         this.idUsuarioTime = idUsuarioTime;
         this.dataEntrada = dataEntrada;
         this.usuario = usuario;
@@ -43,11 +44,11 @@ public class UsuarioTime {
         this.idUsuarioTime = idUsuarioTime;
     }
 
-    public LocalDate getDataEntrada() {
+    public LocalDateTime getDataEntrada() {
         return dataEntrada;
     }
 
-    public void setDataEntrada(LocalDate dataEntrada) {
+    public void setDataEntrada(LocalDateTime dataEntrada) {
         this.dataEntrada = dataEntrada;
     }
 
