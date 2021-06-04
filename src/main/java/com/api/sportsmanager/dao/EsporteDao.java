@@ -17,7 +17,7 @@ import com.api.sportsmanager.persistencia.ConexaoMysql;
 @Service
 public class EsporteDao {
     private static final Logger log = LoggerFactory.getLogger(EsporteDao.class);
-    
+
     private ConexaoMysql conexao = new ConexaoMysql();
 
     public List<Esporte> findAll() {
@@ -47,7 +47,7 @@ public class EsporteDao {
             conexao.fecharConexao();
         }
     }
-    
+
     public Esporte findById(long id) {
         this.conexao.abrirConexao();
 
@@ -71,8 +71,32 @@ public class EsporteDao {
         }
         return e;
     }
-    
-    public void postUsuario(Esporte e) {
+
+    public Esporte findByNomeEsporte(String nomeEsporte) {
+        this.conexao.abrirConexao();
+
+        String query = "SELECT * FROM `esportes` WHERE nome=?";
+
+        Esporte e = null;
+        // How to take in DB
+        try {
+            PreparedStatement ps = this.conexao.getConexao().prepareStatement(query);
+            ps.setString(1, nomeEsporte);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                e = new Esporte(rs.getLong("id_esporte"), rs.getString("nome"), rs.getString("logo"),
+                        rs.getString("plataforma"), null, null, null);
+            }
+        } catch (SQLException error) {
+            error.printStackTrace();
+        } finally {
+            conexao.fecharConexao();
+        }
+        return e;
+    }
+
+    public void postEsporte(Esporte e) {
 
         this.conexao.abrirConexao();
         String query = "INSERT INTO `esporte` VALUES(null,?,?,?) ";
@@ -111,7 +135,6 @@ public class EsporteDao {
         }
     }
 
-    
     public void delete(long id) {
         this.conexao.abrirConexao();
         String query = "DELETE FROM `esporte` WHERE id_esporte=?";

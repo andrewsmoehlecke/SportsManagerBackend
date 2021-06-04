@@ -34,13 +34,13 @@ public class TimeController {
 
     // Criar novo time
     @PostMapping
-    public ResponseEntity post(@RequestBody Time time) {
+    public ResponseEntity<Void> post(@RequestBody Time time) {
         log.info("Post /time");
 
         try {
             // verify if time already exist
             if (timeDao.findByNomeTime(time.getNomeTime()) != null) {
-                log.warn("Time with name "+time.getNomeTime()+" is already exist");
+                log.warn("Time with name " + time.getNomeTime() + " already exist");
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             } else {
                 timeDao.postTime(time);
@@ -48,7 +48,7 @@ public class TimeController {
             }
         } catch (Exception e) {
             log.error("Can´t post time " + time.getNomeTime());
-            log.error(e.toString());
+            log.error("ERROR " + e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -64,7 +64,7 @@ public class TimeController {
 
     // Buscar time pelo id
     @GetMapping("/{id}")
-    public ResponseEntity<Time> getTimeById(@PathVariable long id) {
+    public ResponseEntity<Time> getTimeById(@PathVariable("id") long id) {
         log.info("GET /time/" + id);
 
         Time t = timeDao.findById(id);
@@ -73,7 +73,7 @@ public class TimeController {
 
     // atualizar time pelo id
     @PutMapping("/{id}")
-    public ResponseEntity put(@PathVariable long idTime, @RequestBody Time time) {
+    public ResponseEntity<Void> put(@PathVariable("id") long idTime, @RequestBody Time time) {
         log.info("PUT /time/" + idTime);
         // Att Time here
         timeDao.putTime(time, idTime);
@@ -82,14 +82,14 @@ public class TimeController {
 
     // deletar time pelo id
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable long id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") long id) {
         log.info("DELETE /time/" + id);
 
         try {
             timeDao.delete(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Can´t delete user with id " + id);
+            log.error("Can´t delete Time with id " + id);
             log.error(e.toString());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

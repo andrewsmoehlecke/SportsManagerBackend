@@ -18,9 +18,9 @@ import com.api.sportsmanager.util.ConversaoDeData;
 @Service
 public class UsuarioDao {
     private static final Logger log = LoggerFactory.getLogger(UsuarioDao.class);
-    
+
     private ConexaoMysql conexao = new ConexaoMysql();
-    
+
     public List<Usuario> findAll() {
         this.conexao.abrirConexao();
         String query = "SELECT * FROM `usuarios`";
@@ -47,7 +47,7 @@ public class UsuarioDao {
             conexao.fecharConexao();
         }
     }
-    
+
     public Usuario findById(long id) {
         this.conexao.abrirConexao();
 
@@ -56,6 +56,31 @@ public class UsuarioDao {
         try {
             PreparedStatement ps = this.conexao.getConexao().prepareStatement(query);
             ps.setLong(1, id);
+            ResultSet rs = ps.executeQuery();
+
+            Usuario u = new Usuario();
+            if (rs.next()) {
+
+                u = new Usuario(rs.getLong("id_usuario"), rs.getString("username"), rs.getString("email"),
+                        rs.getString("senha"), ConversaoDeData.dateToLocalDateTime(rs.getDate("data_criacao")), null);
+            }
+            return u;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            conexao.fecharConexao();
+        }
+    }
+
+    public Usuario findByUsername(String username) {
+        this.conexao.abrirConexao();
+
+        String query = "SELECT * FROM `usuarios` WHERE username=?";
+        // How to take in DB
+        try {
+            PreparedStatement ps = this.conexao.getConexao().prepareStatement(query);
+            ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
 
             Usuario u = new Usuario();
