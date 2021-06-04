@@ -74,6 +74,31 @@ public class TimeDao {
             Time t = null;
             if (rs.next()) {
 
+                t = new Time(rs.getLong("id_time"), rs.getString("nome_time"), rs.getInt("num_vitoria"),
+                        rs.getInt("num_empate"), rs.getInt("num_derrota"),
+                        LocalDateTime.parse(rs.getString("data_criacao").replace(" ", "T")), null, null, null, null);
+            }
+            return t;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            conexao.fecharConexao();
+        }
+    }
+    
+    public Time findByNomeTime(String nomeTime) {
+        this.conexao.abrirConexao();
+
+        String query = "SELECT * FROM `time` WHERE nome=?";
+        // How to take in DB
+        try {
+            PreparedStatement ps = this.conexao.getConexao().prepareStatement(query);
+            ps.setString(1, nomeTime);
+            ResultSet rs = ps.executeQuery();
+
+            Time t = null;
+            if (rs.next()) {
                 t = new Time(
                     rs.getLong("id_time"),
                     rs.getString("nome_time"),

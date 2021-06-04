@@ -37,24 +37,34 @@ public class TimeController {
     public ResponseEntity post(@RequestBody Time time) {
         log.info("Post /time");
 
-        timeDao.postTime(time);
-        return new ResponseEntity<>(HttpStatus.OK);
+        try {
+            // verify if time already exist
+            if (timeDao.findByNomeTime(time.getNomeTime()) != null) {
+                log.warn("Time with name "+time.getNomeTime()+" is already exist");
+                return new ResponseEntity<>(HttpStatus.CONFLICT);
+            } else {
+                timeDao.postTime(time);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+        } catch (Exception e) {
+            log.error("Can´t post time " + time.getNomeTime());
+            log.error(e.toString());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     // Buscar por todos os times
     @GetMapping()
-    public ResponseEntity<List<Time>> get() {
+    public ResponseEntity<List<Time>> getAll() {
         log.info("GET /time");
-        timeDao.postTime(new Time());
 
-        // List<Time> allTimes = timeDao.findAll();
-        // return new ResponseEntity<>(allTimes, HttpStatus.OK);
-        return new ResponseEntity<>(HttpStatus.OK);
+        List<Time> allTimes = timeDao.findAll();
+        return new ResponseEntity<>(allTimes, HttpStatus.OK);
     }
 
     // Buscar time pelo id
     @GetMapping("/{id}")
-    public ResponseEntity<Time> getOne(@PathVariable long id) {
+    public ResponseEntity<Time> getTimeById(@PathVariable long id) {
         log.info("GET /time/" + id);
 
         Time t = timeDao.findById(id);
@@ -63,18 +73,25 @@ public class TimeController {
 
     // atualizar time pelo id
     @PutMapping("/{id}")
-    public ResponseEntity<Time> put(@PathVariable long id, @RequestBody Time time) {
-        // just example (not working)
+    public ResponseEntity put(@PathVariable long idTime, @RequestBody Time time) {
+        log.info("PUT /time/" + idTime);
         // Att Time here
-        Time t = new Time();
-        return new ResponseEntity<>(t, HttpStatus.OK);
+        timeDao.putTime(time, idTime);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     // deletar time pelo id
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable long id) {
-        // just example (not working)
-        // Delete Time here
-        return new ResponseEntity<>(HttpStatus.OK);
+        log.info("DELETE /time/" + id);
+
+        try {
+            timeDao.delete(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("Can´t delete user with id " + id);
+            log.error(e.toString());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }
