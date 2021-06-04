@@ -18,7 +18,7 @@ import com.api.sportsmanager.util.ConversaoDeData;
 
 @Service
 public class UsuarioTimeDao {
-    private static final Logger log = LoggerFactory.getLogger(UsuarioDao.class);
+    private static final Logger log = LoggerFactory.getLogger(UsuarioTimeDao.class);
     
     private ConexaoMysql conexao = new ConexaoMysql();
 
@@ -106,10 +106,10 @@ public class UsuarioTimeDao {
         }
     }
     
-    public void putUsuarioTime(UsuarioTime ut, long idCampeonato) {
+    public void putUsuarioTime(UsuarioTime ut, long idUsuarioTime) {
 
         this.conexao.abrirConexao();
-        String query = "UPDATE `usuario_time` SET data_entrada=?, id_usuario=?, id_time=?, cargo=?, id_funcao_time=?  WHERE id_campeonato=?";
+        String query = "UPDATE `usuario_time` SET data_entrada=?, id_usuario=?, id_time=?, cargo=?, id_funcao_time=?  WHERE id_usuario_time=?";
         try {
             PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
 

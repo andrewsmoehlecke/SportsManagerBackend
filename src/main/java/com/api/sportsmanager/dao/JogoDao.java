@@ -18,7 +18,7 @@ import com.api.sportsmanager.persistencia.ConexaoMysql;
 
 @Service
 public class JogoDao {
-    private static final Logger log = LoggerFactory.getLogger(EsporteDao.class);
+    private static final Logger log = LoggerFactory.getLogger(JogoDao.class);
     
     private ConexaoMysql conexao = new ConexaoMysql();
 

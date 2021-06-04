@@ -19,7 +19,7 @@ import com.api.sportsmanager.util.ConversaoDeData;
 
 @Service
 public class CampeonatoDao {
-    private static final Logger log = LoggerFactory.getLogger(EsporteDao.class);
+    private static final Logger log = LoggerFactory.getLogger(CampeonatoDao.class);
     
     private ConexaoMysql conexao = new ConexaoMysql();
 
