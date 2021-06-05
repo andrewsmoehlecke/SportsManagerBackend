@@ -1,8 +1,10 @@
 package com.api.sportsmanager.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.api.sportsmanager.dao.JogoDao;
+import com.api.sportsmanager.dto.JogoDto;
 import com.api.sportsmanager.entities.Jogo;
 
 import org.slf4j.Logger;
@@ -46,19 +48,30 @@ public class JogoController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Jogo>> getAll() {
+    public ResponseEntity<List<JogoDto>> getAll() {
         log.info("GET /jogo");
 
         List<Jogo> allJogos = jogoDao.findAll();
-        return new ResponseEntity<>(allJogos, HttpStatus.OK);
+        List<JogoDto> allJogosDto = new ArrayList<JogoDto>();
+
+        for (Jogo j : allJogos) {
+            JogoDto dto = new JogoDto(j.getIdJogo(), j.getPontuacaoTime1(), j.getPontuacaoTime2(),
+                    j.getCampeonato().getIdCampeonato());
+
+            allJogosDto.add(dto);
+        }
+        return new ResponseEntity<>(allJogosDto, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Jogo> getJogoById(@PathVariable("id") long id) {
+    public ResponseEntity<JogoDto> getJogoById(@PathVariable("id") long id) {
         log.info("GET /jogo/" + id);
 
         Jogo j = jogoDao.findById(id);
-        return new ResponseEntity<>(j, HttpStatus.OK);
+        JogoDto dto = new JogoDto(j.getIdJogo(), j.getPontuacaoTime1(), j.getPontuacaoTime2(),
+                j.getCampeonato().getIdCampeonato());
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

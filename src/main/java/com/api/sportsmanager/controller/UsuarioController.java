@@ -1,8 +1,10 @@
 package com.api.sportsmanager.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.api.sportsmanager.dao.UsuarioDao;
+import com.api.sportsmanager.dto.UsuarioDto;
 import com.api.sportsmanager.entities.Usuario;
 
 import org.slf4j.Logger;
@@ -53,20 +55,31 @@ public class UsuarioController {
 
     // Buscar por todos os Usuarios
     @GetMapping()
-    public ResponseEntity<List<Usuario>> getAll() {
+    public ResponseEntity<List<UsuarioDto>> getAll() {
         log.info("GET /usuario");
 
         List<Usuario> allUsuarios = usuarioDao.findAll();
-        return new ResponseEntity<>(allUsuarios, HttpStatus.OK);
+        List<UsuarioDto> allUsuariosDto = new ArrayList<UsuarioDto>();
+
+        for (Usuario u : allUsuarios) {
+            UsuarioDto dto = new UsuarioDto(u.getIdUsuario(), u.getUsername(), u.getEmail(), u.getSenha(),
+                    u.getDataCriacao());
+
+            allUsuariosDto.add(dto);
+        }
+        return new ResponseEntity<>(allUsuariosDto, HttpStatus.OK);
     }
 
     // Buscar Usuario pelo id
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> getUsuarioById(@PathVariable("id") long id) {
+    public ResponseEntity<UsuarioDto> getUsuarioById(@PathVariable("id") long id) {
         log.info("GET /usuario/" + id);
 
         Usuario u = usuarioDao.findById(id);
-        return new ResponseEntity<>(u, HttpStatus.OK);
+        UsuarioDto dto = new UsuarioDto(u.getIdUsuario(), u.getUsername(), u.getEmail(), u.getSenha(),
+                u.getDataCriacao());
+        
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     // atualizar Usuario pelo id

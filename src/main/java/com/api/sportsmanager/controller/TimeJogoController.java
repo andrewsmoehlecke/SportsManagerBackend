@@ -1,8 +1,10 @@
 package com.api.sportsmanager.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.api.sportsmanager.dao.TimeJogoDao;
+import com.api.sportsmanager.dto.TimeJogoDto;
 import com.api.sportsmanager.entities.TimeJogo;
 
 import org.slf4j.Logger;
@@ -45,19 +47,30 @@ public class TimeJogoController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<TimeJogo>> getAll() {
+    public ResponseEntity<List<TimeJogoDto>> getAll() {
         log.info("GET /time_jogo");
 
         List<TimeJogo> allTimeJogo = timeJogoDao.findAll();
-        return new ResponseEntity<>(allTimeJogo, HttpStatus.OK);
+        List<TimeJogoDto> allTimeJogoDto = new ArrayList<TimeJogoDto>();
+
+        for (TimeJogo tj : allTimeJogo) {
+            TimeJogoDto dto = new TimeJogoDto(tj.getIdTimeJogo(), tj.getLocal(), tj.getPontuacaoTime1(),
+                    tj.getPontuacaoTime2(), tj.getDataJogo(), tj.getTime().getIdTime(), tj.getJogo().getIdJogo());
+
+            allTimeJogoDto.add(dto);
+        }
+        return new ResponseEntity<>(allTimeJogoDto, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TimeJogo> getTimeJogoById(@PathVariable("id") long id) {
+    public ResponseEntity<TimeJogoDto> getTimeJogoById(@PathVariable("id") long id) {
         log.info("GET /time_jogo/" + id);
 
         TimeJogo tj = timeJogoDao.findById(id);
-        return new ResponseEntity<>(tj, HttpStatus.OK);
+        TimeJogoDto dto = new TimeJogoDto(tj.getIdTimeJogo(), tj.getLocal(), tj.getPontuacaoTime1(),
+                tj.getPontuacaoTime2(), tj.getDataJogo(), tj.getTime().getIdTime(), tj.getJogo().getIdJogo());
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

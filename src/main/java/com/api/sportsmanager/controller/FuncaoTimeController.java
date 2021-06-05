@@ -1,8 +1,10 @@
 package com.api.sportsmanager.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.api.sportsmanager.dao.FuncaoTimeDao;
+import com.api.sportsmanager.dto.FuncaoTimeDto;
 import com.api.sportsmanager.entities.FuncaoTime;
 
 import org.slf4j.Logger;
@@ -47,19 +49,28 @@ public class FuncaoTimeController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<FuncaoTime>> getAll() {
+    public ResponseEntity<List<FuncaoTimeDto>> getAll() {
         log.info("GET /funcao_time");
 
         List<FuncaoTime> allFuncaoTime = funcaoTimeDao.findAll();
-        return new ResponseEntity<>(allFuncaoTime, HttpStatus.OK);
+        List<FuncaoTimeDto> allFuncaoTimeDto = new ArrayList<FuncaoTimeDto>();
+
+        for (FuncaoTime ft : allFuncaoTime) {
+            FuncaoTimeDto dto = new FuncaoTimeDto(ft.getIdFuncaoTime(), ft.getNome(), ft.getEsporte().getIdEsporte());
+
+            allFuncaoTimeDto.add(dto);
+        }
+        return new ResponseEntity<>(allFuncaoTimeDto, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<FuncaoTime> getFuncaoTimeById(@PathVariable("id") long id) {
+    public ResponseEntity<FuncaoTimeDto> getFuncaoTimeById(@PathVariable("id") long id) {
         log.info("GET /funcao_time/" + id);
 
         FuncaoTime ft = funcaoTimeDao.findById(id);
-        return new ResponseEntity<>(ft, HttpStatus.OK);
+        FuncaoTimeDto dto = new FuncaoTimeDto(ft.getIdFuncaoTime(), ft.getNome(), ft.getEsporte().getIdEsporte());
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

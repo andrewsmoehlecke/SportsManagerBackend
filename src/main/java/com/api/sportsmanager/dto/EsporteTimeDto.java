@@ -1,17 +1,17 @@
 package com.api.sportsmanager.dto;
 
-public class EsporteTime {
+public class EsporteTimeDto {
     private long idEsporteTime;
     private long idEsporte;
     private long idTime;
 
-    public EsporteTime() {
+    public EsporteTimeDto() {
         this.idEsporteTime = 0;
         this.setIdEsporte(0);
         this.setIdTime(0);
     }
 
-    public EsporteTime(long idEsporteTime, long idEsporte, long idTime) {
+    public EsporteTimeDto(long idEsporteTime, long idEsporte, long idTime) {
         this.idEsporteTime = idEsporteTime;
         this.setIdEsporte(idEsporte);
         this.setIdTime(idTime);

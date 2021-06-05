@@ -1,8 +1,10 @@
 package com.api.sportsmanager.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.api.sportsmanager.dao.CampeonatoDao;
+import com.api.sportsmanager.dto.CampeonatoDto;
 import com.api.sportsmanager.entities.Campeonato;
 
 import org.slf4j.Logger;
@@ -45,19 +47,31 @@ public class CampeonatoController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Campeonato>> getAll() {
+    public ResponseEntity<List<CampeonatoDto>> getAll() {
         log.info("GET /campeonato");
 
         List<Campeonato> allCampeonatos = campeonatoDao.findAll();
-        return new ResponseEntity<>(allCampeonatos, HttpStatus.OK);
+        List<CampeonatoDto> allCampeonatosDto = new ArrayList<CampeonatoDto>();
+
+        for (Campeonato c : allCampeonatos) {
+            CampeonatoDto dto = new CampeonatoDto(c.getIdCampeonato(), c.getNome(), c.getInformacoes(), c.getRegras(),
+                    c.getData_inicio(), c.getData_final(), c.getQtdGrupos(), c.getQtdTimesPorGrupo(),
+                    c.getFasesPlayoffs(), c.isPossuiLowerBracket(), c.getTimeVencedor().getIdTime(),
+                    c.getEsporte().getIdEsporte());
+            allCampeonatosDto.add(dto);
+        }
+        return new ResponseEntity<>(allCampeonatosDto, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Campeonato> getCampeonatoById(@PathVariable("id") long id) {
+    public ResponseEntity<CampeonatoDto> getCampeonatoById(@PathVariable("id") long id) {
         log.info("GET /campeonato/" + id);
 
         Campeonato c = campeonatoDao.findById(id);
-        return new ResponseEntity<>(c, HttpStatus.OK);
+        CampeonatoDto dto = new CampeonatoDto(c.getIdCampeonato(), c.getNome(), c.getInformacoes(), c.getRegras(),
+                c.getData_inicio(), c.getData_final(), c.getQtdGrupos(), c.getQtdTimesPorGrupo(), c.getFasesPlayoffs(),
+                c.isPossuiLowerBracket(), c.getTimeVencedor().getIdTime(), c.getEsporte().getIdEsporte());
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

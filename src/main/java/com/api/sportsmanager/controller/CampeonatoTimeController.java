@@ -1,13 +1,11 @@
 package com.api.sportsmanager.controller;
 
-import org.springframework.stereotype.Service;
-
+import java.util.ArrayList;
 import java.util.List;
 
 import com.api.sportsmanager.dao.CampeonatoTimeDao;
-import com.api.sportsmanager.dao.UsuarioDao;
+import com.api.sportsmanager.dto.CampeonatoTimeDto;
 import com.api.sportsmanager.entities.CampeonatoTime;
-import com.api.sportsmanager.entities.Usuario;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -49,19 +47,31 @@ public class CampeonatoTimeController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<CampeonatoTime>> getAll() {
+    public ResponseEntity<List<CampeonatoTimeDto>> getAll() {
         log.info("GET /campeonato_time");
 
         List<CampeonatoTime> allCampeonatoTime = campeonatoTimeDao.findAll();
-        return new ResponseEntity<>(allCampeonatoTime, HttpStatus.OK);
+        List<CampeonatoTimeDto> allCampeonatoTimeDto = new ArrayList<CampeonatoTimeDto>();
+
+        for (CampeonatoTime ct : allCampeonatoTime) {
+            CampeonatoTimeDto dto = new CampeonatoTimeDto(ct.getIdCampeonatoTime(),
+                    ct.getCampeonato().getIdCampeonato(), ct.getTime().getIdTime());
+
+            allCampeonatoTimeDto.add(dto);
+        }
+        return new ResponseEntity<>(allCampeonatoTimeDto, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CampeonatoTime> getCampeonatoTimeById(@PathVariable("id") long id) {
+    public ResponseEntity<CampeonatoTimeDto> getCampeonatoTimeById(@PathVariable("id") long id) {
         log.info("GET /campeonato_time/" + id);
 
         CampeonatoTime ct = campeonatoTimeDao.findById(id);
-        return new ResponseEntity<>(ct, HttpStatus.OK);
+
+        CampeonatoTimeDto dto = new CampeonatoTimeDto(ct.getIdCampeonatoTime(), ct.getCampeonato().getIdCampeonato(),
+                ct.getTime().getIdTime());
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

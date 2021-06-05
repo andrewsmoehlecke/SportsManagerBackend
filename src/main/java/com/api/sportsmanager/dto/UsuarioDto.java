@@ -1,7 +1,6 @@
 package com.api.sportsmanager.dto;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class UsuarioDto {
     private long idUsuario;
@@ -18,8 +17,7 @@ public class UsuarioDto {
         this.dataCriacao = LocalDateTime.now();
     }
 
-    public UsuarioDto(long idUsuario, String username, String email, String senha, LocalDateTime dataCriacao,
-            List<Long> idUsuarioTime) {
+    public UsuarioDto(long idUsuario, String username, String email, String senha, LocalDateTime dataCriacao) {
         this.idUsuario = idUsuario;
         this.username = username;
         this.email = email;

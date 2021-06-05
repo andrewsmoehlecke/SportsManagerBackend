@@ -1,12 +1,14 @@
 package com.api.sportsmanager.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.api.sportsmanager.dao.TimeDao;
+import com.api.sportsmanager.dto.TimeDto;
 import com.api.sportsmanager.entities.Time;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -55,20 +57,31 @@ public class TimeController {
 
     // Buscar por todos os times
     @GetMapping()
-    public ResponseEntity<List<Time>> getAll() {
+    public ResponseEntity<List<TimeDto>> getAll() {
         log.info("GET /time");
 
         List<Time> allTimes = timeDao.findAll();
-        return new ResponseEntity<>(allTimes, HttpStatus.OK);
+        List<TimeDto> allTimesDto = new ArrayList<TimeDto>();
+
+        for (Time t : allTimes) {
+            TimeDto dto = new TimeDto(t.getIdTime(), t.getNomeTime(), t.getNumVitoria(), t.getNumEmpate(),
+                    t.getNumDerrota(), t.getDataCriacao());
+
+            allTimesDto.add(dto);
+        }
+        return new ResponseEntity<>(allTimesDto, HttpStatus.OK);
     }
 
     // Buscar time pelo id
     @GetMapping("/{id}")
-    public ResponseEntity<Time> getTimeById(@PathVariable("id") long id) {
+    public ResponseEntity<TimeDto> getTimeById(@PathVariable("id") long id) {
         log.info("GET /time/" + id);
 
         Time t = timeDao.findById(id);
-        return new ResponseEntity<>(t, HttpStatus.OK);
+        TimeDto dto = new TimeDto(t.getIdTime(), t.getNomeTime(), t.getNumVitoria(), t.getNumEmpate(),
+                t.getNumDerrota(), t.getDataCriacao());
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     // atualizar time pelo id

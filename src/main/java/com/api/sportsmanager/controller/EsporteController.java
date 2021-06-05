@@ -1,8 +1,10 @@
 package com.api.sportsmanager.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.api.sportsmanager.dao.EsporteDao;
+import com.api.sportsmanager.dto.EsporteDto;
 import com.api.sportsmanager.entities.Esporte;
 
 import org.slf4j.Logger;
@@ -54,15 +56,24 @@ public class EsporteController {
         log.info("GET /esporte");
 
         List<Esporte> allEsportes = esporteDao.findAll();
+        List<EsporteDto> allEsportesDto = new ArrayList<EsporteDto>();
+
+        for (Esporte e : allEsportes) {
+            EsporteDto dto = new EsporteDto(e.getIdEsporte(), e.getNome(), e.getLogo(), e.getPlataforma());
+            allEsportesDto.add(dto);
+        }
+
         return new ResponseEntity<>(allEsportes, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Esporte> getEsporteById(@PathVariable("id") long id) {
+    public ResponseEntity<EsporteDto> getEsporteById(@PathVariable("id") long id) {
         log.info("GET /esporte/" + id);
 
         Esporte e = esporteDao.findById(id);
-        return new ResponseEntity<>(e, HttpStatus.OK);
+        EsporteDto dto = new EsporteDto(e.getIdEsporte(), e.getNome(), e.getLogo(), e.getPlataforma());
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")

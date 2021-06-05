@@ -1,8 +1,10 @@
 package com.api.sportsmanager.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.api.sportsmanager.dao.EsporteTimeDao;
+import com.api.sportsmanager.dto.EsporteTimeDto;
 import com.api.sportsmanager.entities.EsporteTime;
 
 import org.slf4j.Logger;
@@ -35,10 +37,8 @@ public class EsporteTimeController {
         log.info("POST /esporte_time");
 
         try {
-
             esporteTimeDao.postEsporteTime(et);
             return new ResponseEntity<>(HttpStatus.OK);
-
         } catch (Exception e) {
             log.error("Can´t post EsporteTime");
             log.error("ERROR " + e);
@@ -47,19 +47,30 @@ public class EsporteTimeController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<EsporteTime>> getAll() {
+    public ResponseEntity<List<EsporteTimeDto>> getAll() {
         log.info("GET /esporte_time");
 
         List<EsporteTime> allEsporteTime = esporteTimeDao.findAll();
-        return new ResponseEntity<>(allEsporteTime, HttpStatus.OK);
+        List<EsporteTimeDto> allEsporteTimeDto = new ArrayList<EsporteTimeDto>();
+
+        for (EsporteTime et : allEsporteTime) {
+            EsporteTimeDto dto = new EsporteTimeDto(et.getIdEsporteTime(), et.getEsporte().getIdEsporte(),
+                    et.getTime().getIdTime());
+
+            allEsporteTimeDto.add(dto);
+        }
+        return new ResponseEntity<>(allEsporteTimeDto, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<EsporteTime> getEsporteTimeById(@PathVariable("id") long id) {
+    public ResponseEntity<EsporteTimeDto> getEsporteTimeById(@PathVariable("id") long id) {
         log.info("GET /esporte_time/" + id);
 
         EsporteTime et = esporteTimeDao.findById(id);
-        return new ResponseEntity<>(et, HttpStatus.OK);
+        EsporteTimeDto dto = new EsporteTimeDto(et.getIdEsporteTime(), et.getEsporte().getIdEsporte(),
+                et.getTime().getIdTime());
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
