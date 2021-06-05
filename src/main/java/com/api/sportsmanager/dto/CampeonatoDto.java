@@ -1,10 +1,8 @@
-package com.api.sportsmanager.entities;
+package com.api.sportsmanager.dto;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
-public class Campeonato {
+public class CampeonatoDto {
     private long idCampeonato;
     private String nome;
     private String informacoes;
@@ -15,12 +13,10 @@ public class Campeonato {
     private int qtdTimesPorGrupo;
     private int fasesPlayoffs;
     private boolean possuiLowerBracket;
-    private Time timeVencedor;
-    private Esporte esporte;
-    private List<CampeonatoTime> campeonatoTime;
-    private List<Jogo> jogos;
+    private long idTimeVencedor;
+    private long idEsporte;
 
-    public Campeonato() {
+    public CampeonatoDto() {
         this.idCampeonato = 0;
         this.nome = "";
         this.informacoes = "";
@@ -31,16 +27,13 @@ public class Campeonato {
         this.qtdTimesPorGrupo = 0;
         this.fasesPlayoffs = 0;
         this.possuiLowerBracket = false;
-        this.timeVencedor = new Time();
-        this.esporte = new Esporte();
-        this.campeonatoTime = new ArrayList<CampeonatoTime>();
-        this.jogos = new ArrayList<Jogo>();
+        this.setIdTimeVencedor(0);
+        this.setIdEsporte(0);
     }
 
-    public Campeonato(long idCampeonato, String nome, String informacoes, String regras, LocalDateTime data_inicio,
+    public CampeonatoDto(long idCampeonato, String nome, String informacoes, String regras, LocalDateTime data_inicio,
             LocalDateTime data_final, int qtdGrupos, int qtdTimesPorGrupo, int fasesPlayoffs,
-            boolean possuiLowerBracket, Time timeVencedor, Esporte esporte, List<CampeonatoTime> campeonatoTime,
-            List<Jogo> jogos) {
+            boolean possuiLowerBracket, long idTimeVencedor, long idEsporte) {
         this.idCampeonato = idCampeonato;
         this.nome = nome;
         this.informacoes = informacoes;
@@ -51,26 +44,24 @@ public class Campeonato {
         this.qtdTimesPorGrupo = qtdTimesPorGrupo;
         this.fasesPlayoffs = fasesPlayoffs;
         this.possuiLowerBracket = possuiLowerBracket;
-        this.timeVencedor = timeVencedor;
-        this.esporte = esporte;
-        this.campeonatoTime = campeonatoTime;
-        this.jogos = jogos;
+        this.setIdTimeVencedor(idTimeVencedor);
+        this.setIdEsporte(idEsporte);
     }
 
-    public List<Jogo> getJogos() {
-        return jogos;
+    public long getIdEsporte() {
+        return idEsporte;
     }
 
-    public void setJogos(List<Jogo> jogos) {
-        this.jogos = jogos;
+    public void setIdEsporte(long idEsporte) {
+        this.idEsporte = idEsporte;
     }
 
-    public List<CampeonatoTime> getCampeonatoTime() {
-        return campeonatoTime;
+    public long getIdTimeVencedor() {
+        return idTimeVencedor;
     }
 
-    public void setCampeonatoTime(List<CampeonatoTime> campeonatoTime) {
-        this.campeonatoTime = campeonatoTime;
+    public void setIdTimeVencedor(long idTimeVencedor) {
+        this.idTimeVencedor = idTimeVencedor;
     }
 
     public boolean isPossuiLowerBracket() {
@@ -152,30 +143,4 @@ public class Campeonato {
     public void setData_final(LocalDateTime data_final) {
         this.data_final = data_final;
     }
-
-    public Time getTimeVencedor() {
-        return timeVencedor;
-    }
-
-    public void setTimeVencedor(Time timeVencedor) {
-        this.timeVencedor = timeVencedor;
-    }
-
-    public Esporte getEsporte() {
-        return esporte;
-    }
-
-    public void setEsporte(Esporte esporte) {
-        this.esporte = esporte;
-    }
-
-    @Override
-    public String toString() {
-        return "Campeonato [campeonatoTime=" + campeonatoTime + ", data_final=" + data_final + ", data_inicio="
-                + data_inicio + ", esporte=" + esporte + ", fasesPlayoffs=" + fasesPlayoffs + ", idCampeonato="
-                + idCampeonato + ", informacoes=" + informacoes + ", jogos=" + jogos + ", nome=" + nome
-                + ", possuiLowerBracket=" + possuiLowerBracket + ", qtdGrupos=" + qtdGrupos + ", qtdTimesPorGrupo="
-                + qtdTimesPorGrupo + ", regras=" + regras + ", timeVencedor=" + timeVencedor + "]";
-    }
-
 }

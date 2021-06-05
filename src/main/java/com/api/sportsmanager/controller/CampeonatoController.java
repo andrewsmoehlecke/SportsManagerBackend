@@ -7,6 +7,7 @@ import com.api.sportsmanager.entities.Campeonato;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -24,11 +25,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/campeonato")
 public class CampeonatoController {
     private static final Logger log = LoggerFactory.getLogger(UsuarioController.class);
+
+    @Autowired
     private CampeonatoDao campeonatoDao;
 
-    public CampeonatoController(CampeonatoDao campeonatoDao) {
-        this.campeonatoDao = campeonatoDao;
-    }
+    // public CampeonatoController(CampeonatoDao campeonatoDao) {
+    // this.campeonatoDao = campeonatoDao;
+    // }
 
     @PostMapping
     public ResponseEntity<Void> post(@RequestBody Campeonato c) {

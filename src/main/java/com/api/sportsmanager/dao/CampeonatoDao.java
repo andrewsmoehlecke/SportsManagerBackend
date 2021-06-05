@@ -1,26 +1,23 @@
 package com.api.sportsmanager.dao;
 
-import org.springframework.stereotype.Service;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.api.sportsmanager.entities.Campeonato;
+import com.api.sportsmanager.persistencia.ConexaoMysql;
+import com.api.sportsmanager.util.ConversaoDeData;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.api.sportsmanager.entities.Campeonato;
-import com.api.sportsmanager.entities.Esporte;
-import com.api.sportsmanager.persistencia.ConexaoMysql;
-import com.api.sportsmanager.util.ConversaoDeData;
-
 @Service
 public class CampeonatoDao {
     private static final Logger log = LoggerFactory.getLogger(CampeonatoDao.class);
-    
+
     private ConexaoMysql conexao = new ConexaoMysql();
 
     public List<Campeonato> findAll() {
@@ -38,22 +35,13 @@ public class CampeonatoDao {
                 TimeDao timeDao = new TimeDao();
                 EsporteDao esporteDao = new EsporteDao();
 
-                Campeonato c = new Campeonato(
-                    rs.getLong("id_campeonato"),
-                    rs.getString("nome"),
-                    rs.getString("informacoes"),
-                    rs.getString("regras"),
-                    ConversaoDeData.dateToLocalDateTime(rs.getDate("data_inicio")),
-                    ConversaoDeData.dateToLocalDateTime(rs.getDate("data_final")), 
-                    rs.getInt("qtd_grupos"), 
-                    rs.getInt("qtd_times_p_grupo"),
-                    rs.getInt("fases_playoffs"), 
-                    rs.getBoolean("possui_lower_bracket"),
-                    timeDao.findById(rs.getLong("campeao")), 
-                    esporteDao.findById(rs.getLong("id_esporte")), 
-                    null,
-                    null
-                );
+                Campeonato c = new Campeonato(rs.getLong("id_campeonato"), rs.getString("nome"),
+                        rs.getString("informacoes"), rs.getString("regras"),
+                        ConversaoDeData.dateToLocalDateTime(rs.getDate("data_inicio")),
+                        ConversaoDeData.dateToLocalDateTime(rs.getDate("data_final")), rs.getInt("qtd_grupos"),
+                        rs.getInt("qtd_times_p_grupo"), rs.getInt("fases_playoffs"),
+                        rs.getBoolean("possui_lower_bracket"), timeDao.findById(rs.getLong("campeao")),
+                        esporteDao.findById(rs.getLong("id_esporte")), null, null);
 
                 allCampeonatos.add(c);
             }
@@ -88,8 +76,7 @@ public class CampeonatoDao {
                         ConversaoDeData.dateToLocalDateTime(rs.getDate("data_final")), rs.getInt("qtd_grupos"),
                         rs.getInt("qtd_times_p_grupo"), rs.getInt("fases_playoffs"),
                         rs.getBoolean("possui_lower_bracket"), timeDao.findById(rs.getLong("campeao")),
-                        esporteDao.findById(rs.getLong("id_esporte")), null, null
-                );
+                        esporteDao.findById(rs.getLong("id_esporte")), null, null);
             }
         } catch (SQLException error) {
             error.printStackTrace();
@@ -125,7 +112,7 @@ public class CampeonatoDao {
             conexao.fecharConexao();
         }
     }
-    
+
     public void putCampeonato(Campeonato c, long idCampeonato) {
 
         this.conexao.abrirConexao();
