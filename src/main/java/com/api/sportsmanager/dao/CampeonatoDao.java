@@ -37,9 +37,9 @@ public class CampeonatoDao {
 
                 Campeonato c = new Campeonato(rs.getLong("id_campeonato"), rs.getString("nome"),
                         rs.getString("informacoes"), rs.getString("regras"),
-                        ConversaoDeData.dateToLocalDateTime(rs.getDate("data_inicio")),
-                        ConversaoDeData.dateToLocalDateTime(rs.getDate("data_final")), rs.getInt("qtd_grupos"),
-                        rs.getInt("qtd_times_p_grupo"), rs.getInt("fases_playoffs"),
+                        ConversaoDeData.timestampToLocalDateTime(rs.getTimestamp("data_inicio")),
+                        ConversaoDeData.timestampToLocalDateTime(rs.getTimestamp("data_final")),
+                        rs.getInt("qtd_grupos"), rs.getInt("qtd_times_p_grupo"), rs.getInt("fases_playoffs"),
                         rs.getBoolean("possui_lower_bracket"), timeDao.findById(rs.getLong("campeao")),
                         esporteDao.findById(rs.getLong("id_esporte")), null, null);
 
@@ -72,9 +72,10 @@ public class CampeonatoDao {
                 EsporteDao esporteDao = new EsporteDao();
 
                 c = new Campeonato(rs.getLong("id_campeonato"), rs.getString("nome"), rs.getString("informacoes"),
-                        rs.getString("regras"), ConversaoDeData.dateToLocalDateTime(rs.getDate("data_inicio")),
-                        ConversaoDeData.dateToLocalDateTime(rs.getDate("data_final")), rs.getInt("qtd_grupos"),
-                        rs.getInt("qtd_times_p_grupo"), rs.getInt("fases_playoffs"),
+                        rs.getString("regras"),
+                        ConversaoDeData.timestampToLocalDateTime(rs.getTimestamp("data_inicio")),
+                        ConversaoDeData.timestampToLocalDateTime(rs.getTimestamp("data_final")),
+                        rs.getInt("qtd_grupos"), rs.getInt("qtd_times_p_grupo"), rs.getInt("fases_playoffs"),
                         rs.getBoolean("possui_lower_bracket"), timeDao.findById(rs.getLong("campeao")),
                         esporteDao.findById(rs.getLong("id_esporte")), null, null);
             }
@@ -97,8 +98,8 @@ public class CampeonatoDao {
             st.setString(2, c.getNome());
             st.setString(3, c.getInformacoes());
             st.setString(4, c.getRegras());
-            st.setDate(5, ConversaoDeData.localDateTimeToDate(c.getData_inicio()));
-            st.setDate(6, ConversaoDeData.localDateTimeToDate(c.getData_inicio()));
+            st.setTimestamp(5, ConversaoDeData.localDateTimeToTimestamp(c.getData_inicio()));
+            st.setTimestamp(6, ConversaoDeData.localDateTimeToTimestamp(c.getData_inicio()));
             st.setInt(7, c.getQtdGrupos());
             st.setInt(8, c.getQtdTimesPorGrupo());
             st.setBoolean(9, c.isPossuiLowerBracket());
@@ -124,8 +125,8 @@ public class CampeonatoDao {
             st.setString(2, c.getNome());
             st.setString(3, c.getInformacoes());
             st.setString(4, c.getRegras());
-            st.setDate(5, ConversaoDeData.localDateTimeToDate(c.getData_inicio()));
-            st.setDate(6, ConversaoDeData.localDateTimeToDate(c.getData_inicio()));
+            st.setTimestamp(5, ConversaoDeData.localDateTimeToTimestamp(c.getData_inicio()));
+            st.setTimestamp(6, ConversaoDeData.localDateTimeToTimestamp(c.getData_inicio()));
             st.setInt(7, c.getQtdGrupos());
             st.setInt(8, c.getQtdTimesPorGrupo());
             st.setBoolean(9, c.isPossuiLowerBracket());

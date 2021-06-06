@@ -109,13 +109,12 @@ public class TimeDao {
         String query = "INSERT INTO `time` VALUES(null,?,?,?,?,?) ";
         try {
             PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
-            Date dt = ConversaoDeData.localDateTimeToDate(time.getDataCriacao());
 
             st.setString(1, time.getNomeTime());
             st.setInt(2, time.getNumVitoria());
             st.setInt(3, time.getNumEmpate());
             st.setInt(4, time.getNumDerrota());
-            st.setDate(5, dt);
+            st.setTimestamp(5, ConversaoDeData.localDateTimeToTimestamp(time.getDataCriacao()));
 
             st.executeUpdate();
         } catch (SQLException e) {
@@ -131,14 +130,12 @@ public class TimeDao {
         String query = "UPDATE `time` SET nome=?, num_vitoria=?, num_empate=?, num_derrota=?, data_criacao=? WHERE id_time=?";
         try {
             PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
-            // Convert from LocalDateTime to Date
-            Date dt = ConversaoDeData.localDateTimeToDate(time.getDataCriacao());
 
             st.setString(1, time.getNomeTime());
             st.setInt(2, time.getNumVitoria());
             st.setInt(3, time.getNumEmpate());
             st.setInt(4, time.getNumDerrota());
-            st.setDate(5, dt);
+            st.setTimestamp(5, ConversaoDeData.localDateTimeToTimestamp(time.getDataCriacao()));
             st.setLong(6, idTime);
 
             st.executeUpdate();

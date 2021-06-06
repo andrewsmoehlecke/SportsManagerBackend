@@ -20,7 +20,7 @@ import com.api.sportsmanager.util.ConversaoDeData;
 @Service
 public class TimeJogoDao {
     private static final Logger log = LoggerFactory.getLogger(TimeJogoDao.class);
-    
+
     private ConexaoMysql conexao = new ConexaoMysql();
 
     public List<TimeJogo> findAll() {
@@ -40,7 +40,7 @@ public class TimeJogoDao {
 
                 TimeJogo tj = new TimeJogo(rs.getLong("id_time_jogos"), rs.getString("local"),
                         rs.getInt("pontuacao_time_1"), rs.getInt("pontuacao_time_2"),
-                        ConversaoDeData.dateToLocalDateTime(rs.getDate("data_jogo")),
+                        ConversaoDeData.timestampToLocalDateTime(rs.getTimestamp("data_jogo")),
                         timeDao.findById(rs.getLong("id_time")), jogoDao.findById(rs.getLong("id_jogo")));
 
                 allTimeJogo.add(tj);
@@ -54,7 +54,7 @@ public class TimeJogoDao {
             conexao.fecharConexao();
         }
     }
-    
+
     public TimeJogo findById(long id) {
         this.conexao.abrirConexao();
 
@@ -72,7 +72,8 @@ public class TimeJogoDao {
                 JogoDao jogoDao = new JogoDao();
 
                 tj = new TimeJogo(rs.getLong("id_time_jogos"), rs.getString("local"), rs.getInt("pontuacao_time_1"),
-                        rs.getInt("pontuacao_time_2"), ConversaoDeData.dateToLocalDateTime(rs.getDate("data_jogo")),
+                        rs.getInt("pontuacao_time_2"),
+                        ConversaoDeData.timestampToLocalDateTime(rs.getTimestamp("data_jogo")),
                         timeDao.findById(rs.getLong("id_time")), jogoDao.findById(rs.getLong("id_jogo")));
             }
         } catch (SQLException error) {
@@ -82,7 +83,7 @@ public class TimeJogoDao {
         }
         return tj;
     }
-    
+
     public void postTimeJogo(TimeJogo tj) {
 
         this.conexao.abrirConexao();
@@ -93,7 +94,7 @@ public class TimeJogoDao {
             st.setString(1, tj.getLocal());
             st.setInt(2, tj.getPontuacaoTime1());
             st.setInt(3, tj.getPontuacaoTime2());
-            st.setDate(4, ConversaoDeData.localDateTimeToDate(tj.getDataJogo()));
+            st.setTimestamp(4, ConversaoDeData.localDateTimeToTimestamp(tj.getDataJogo()));
             st.setLong(5, tj.getTime().getIdTime());
             st.setLong(6, tj.getJogo().getIdJogo());
 
@@ -115,7 +116,7 @@ public class TimeJogoDao {
             st.setString(1, tj.getLocal());
             st.setInt(2, tj.getPontuacaoTime1());
             st.setInt(3, tj.getPontuacaoTime2());
-            st.setDate(4, ConversaoDeData.localDateTimeToDate(tj.getDataJogo()));
+            st.setTimestamp(4, ConversaoDeData.localDateTimeToTimestamp(tj.getDataJogo()));
             st.setLong(5, tj.getTime().getIdTime());
             st.setLong(6, tj.getJogo().getIdJogo());
 

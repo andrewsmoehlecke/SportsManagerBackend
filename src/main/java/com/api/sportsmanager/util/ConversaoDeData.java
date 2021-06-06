@@ -1,16 +1,15 @@
 package com.api.sportsmanager.util;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 
 public class ConversaoDeData {
 
-    public static Date localDateTimeToDate(LocalDateTime data) {
-        return Date.valueOf(data.toLocalDate());
+    public static Timestamp localDateTimeToTimestamp(LocalDateTime data) {
+        return Timestamp.valueOf(data);
     }
 
-    public static LocalDateTime dateToLocalDateTime(Date data) {
-        return data.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+    public static LocalDateTime timestampToLocalDateTime(Timestamp data) {
+        return data.toLocalDateTime();
     }
 }

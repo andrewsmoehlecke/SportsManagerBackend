@@ -1,5 +1,6 @@
 package com.api.sportsmanager.dao;
 
+import java.security.Timestamp;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -35,7 +36,8 @@ public class UsuarioDao {
             while (rs.next()) {
 
                 Usuario u = new Usuario(rs.getLong("id_usuario"), rs.getString("username"), rs.getString("email"),
-                        rs.getString("senha"), ConversaoDeData.dateToLocalDateTime(rs.getDate("data_criacao")), null);
+                        rs.getString("senha"),
+                        ConversaoDeData.timestampToLocalDateTime(rs.getTimestamp("data_criacao")), null);
                 allTimes.add(u);
             }
 
@@ -62,7 +64,8 @@ public class UsuarioDao {
             if (rs.next()) {
 
                 u = new Usuario(rs.getLong("id_usuario"), rs.getString("username"), rs.getString("email"),
-                        rs.getString("senha"), ConversaoDeData.dateToLocalDateTime(rs.getDate("data_criacao")), null);
+                        rs.getString("senha"),
+                        ConversaoDeData.timestampToLocalDateTime(rs.getTimestamp("data_criacao")), null);
             }
             return u;
         } catch (SQLException e) {
@@ -87,7 +90,8 @@ public class UsuarioDao {
             if (rs.next()) {
 
                 u = new Usuario(rs.getLong("id_usuario"), rs.getString("username"), rs.getString("email"),
-                        rs.getString("senha"), ConversaoDeData.dateToLocalDateTime(rs.getDate("data_criacao")), null);
+                        rs.getString("senha"),
+                        ConversaoDeData.timestampToLocalDateTime(rs.getTimestamp("data_criacao")), null);
             }
             return u;
         } catch (SQLException e) {
@@ -112,7 +116,8 @@ public class UsuarioDao {
             if (rs.next()) {
 
                 u = new Usuario(rs.getLong("id_usuario"), rs.getString("username"), rs.getString("email"),
-                        rs.getString("senha"), ConversaoDeData.dateToLocalDateTime(rs.getDate("data_criacao")), null);
+                        rs.getString("senha"),
+                        ConversaoDeData.timestampToLocalDateTime(rs.getTimestamp("data_criacao")), null);
             }
             return u;
         } catch (SQLException e) {
@@ -129,12 +134,11 @@ public class UsuarioDao {
         String query = "INSERT INTO `usuarios` VALUES(null,?,?,?,?) ";
         try {
             PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
-            Date dt = ConversaoDeData.localDateTimeToDate(u.getDataCriacao());
 
             st.setString(1, u.getEmail());
             st.setString(2, u.getUsername());
             st.setString(3, u.getSenha());
-            st.setDate(4, dt);
+            st.setTimestamp(4, ConversaoDeData.localDateTimeToTimestamp(u.getDataCriacao()));
 
             st.executeUpdate();
         } catch (SQLException e) {
@@ -150,13 +154,11 @@ public class UsuarioDao {
         String query = "UPDATE `usuarios` SET username=?, email=?, senha=?, data_criacao=? WHERE id_usuario=?";
         try {
             PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
-            // Convert from LocalDateTime to Date
-            Date dt = ConversaoDeData.localDateTimeToDate(u.getDataCriacao());
 
             st.setString(1, u.getUsername());
             st.setString(2, u.getEmail());
             st.setString(3, u.getSenha());
-            st.setDate(4, dt);
+            st.setTimestamp(4, ConversaoDeData.localDateTimeToTimestamp(u.getDataCriacao()));
             st.setLong(5, idUsuario);
 
             st.executeUpdate();

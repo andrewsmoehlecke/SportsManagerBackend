@@ -19,7 +19,7 @@ import com.api.sportsmanager.util.ConversaoDeData;
 @Service
 public class UsuarioTimeDao {
     private static final Logger log = LoggerFactory.getLogger(UsuarioTimeDao.class);
-    
+
     private ConexaoMysql conexao = new ConexaoMysql();
 
     public List<UsuarioTime> findAll() {
@@ -39,7 +39,7 @@ public class UsuarioTimeDao {
                 FuncaoTimeDao funcaoTimeDao = new FuncaoTimeDao();
 
                 UsuarioTime ut = new UsuarioTime(rs.getLong("id_usuario_time"),
-                        ConversaoDeData.dateToLocalDateTime(rs.getDate("data_entrada")),
+                        ConversaoDeData.timestampToLocalDateTime(rs.getTimestamp("data_entrada")),
                         usuarioDao.findById(rs.getLong("id_usuario")), timeDao.findById(rs.getLong("id_time")),
                         rs.getString("cargo"), funcaoTimeDao.findById(rs.getLong("id_funcao_time")));
 
@@ -54,7 +54,7 @@ public class UsuarioTimeDao {
             conexao.fecharConexao();
         }
     }
-    
+
     public UsuarioTime findById(long id) {
         this.conexao.abrirConexao();
 
@@ -73,7 +73,7 @@ public class UsuarioTimeDao {
                 TimeDao timeDao = new TimeDao();
 
                 ut = new UsuarioTime(rs.getLong("id_usuario_time"),
-                        ConversaoDeData.dateToLocalDateTime(rs.getDate("data_entrada")),
+                        ConversaoDeData.timestampToLocalDateTime(rs.getTimestamp("data_entrada")),
                         usuarioDao.findById(rs.getLong("id_usuario")), timeDao.findById(rs.getLong("id_time")),
                         rs.getString("cargo"), funcaoTimeDao.findById(rs.getLong("id_funcao_time")));
             }
@@ -84,7 +84,7 @@ public class UsuarioTimeDao {
         }
         return ut;
     }
-    
+
     public void postUsuarioTime(UsuarioTime ut) {
 
         this.conexao.abrirConexao();
@@ -92,7 +92,7 @@ public class UsuarioTimeDao {
         try {
             PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
 
-            st.setDate(1, ConversaoDeData.localDateTimeToDate(ut.getDataEntrada()));
+            st.setTimestamp(1, ConversaoDeData.localDateTimeToTimestamp(ut.getDataEntrada()));
             st.setLong(2, ut.getUsuario().getIdUsuario());
             st.setLong(3, ut.getTime().getIdTime());
             st.setString(4, ut.getCargo());
@@ -105,7 +105,7 @@ public class UsuarioTimeDao {
             conexao.fecharConexao();
         }
     }
-    
+
     public void putUsuarioTime(UsuarioTime ut, long idUsuarioTime) {
 
         this.conexao.abrirConexao();
@@ -113,7 +113,7 @@ public class UsuarioTimeDao {
         try {
             PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
 
-            st.setDate(1, ConversaoDeData.localDateTimeToDate(ut.getDataEntrada()));
+            st.setTimestamp(1, ConversaoDeData.localDateTimeToTimestamp(ut.getDataEntrada()));
             st.setLong(2, ut.getUsuario().getIdUsuario());
             st.setLong(3, ut.getTime().getIdTime());
             st.setString(4, ut.getCargo());

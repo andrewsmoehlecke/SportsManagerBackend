@@ -1,7 +1,6 @@
 package com.api.sportsmanager.dao;
 
 import org.springframework.stereotype.Service;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,15 +10,13 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.api.sportsmanager.entities.Campeonato;
-import com.api.sportsmanager.entities.Esporte;
 import com.api.sportsmanager.entities.Jogo;
 import com.api.sportsmanager.persistencia.ConexaoMysql;
 
 @Service
 public class JogoDao {
     private static final Logger log = LoggerFactory.getLogger(JogoDao.class);
-    
+
     private ConexaoMysql conexao = new ConexaoMysql();
 
     public List<Jogo> findAll() {
@@ -37,13 +34,8 @@ public class JogoDao {
             while (rs.next()) {
                 CampeonatoDao dao = new CampeonatoDao();
 
-                Jogo j = new Jogo(
-                    rs.getLong("id_jogo"),
-                    rs.getInt("pontuacao_time_1"),
-                    rs.getInt("pontuacao_time_2"),
-                    null,
-                    dao.findById(rs.getLong("id_campeonato"))
-                );
+                Jogo j = new Jogo(rs.getLong("id_jogo"), rs.getInt("pontuacao_time_1"), rs.getInt("pontuacao_time_2"),
+                        null, dao.findById(rs.getLong("id_campeonato")));
 
                 allJogos.add(j);
             }
@@ -54,7 +46,7 @@ public class JogoDao {
         }
         return allJogos;
     }
-    
+
     public Jogo findById(long id) {
         this.conexao.abrirConexao();
 
@@ -80,7 +72,7 @@ public class JogoDao {
         }
         return j;
     }
-    
+
     public void postJogo(Jogo j) {
 
         this.conexao.abrirConexao();
@@ -91,7 +83,7 @@ public class JogoDao {
             st.setInt(1, j.getPontuacaoTime1());
             st.setInt(1, j.getPontuacaoTime2());
             st.setLong(3, j.getCampeonato().getIdCampeonato());
-            
+
             st.executeUpdate();
         } catch (SQLException error) {
             error.printStackTrace();
@@ -118,7 +110,6 @@ public class JogoDao {
             conexao.fecharConexao();
         }
     }
-
 
     public void delete(long id) {
         this.conexao.abrirConexao();

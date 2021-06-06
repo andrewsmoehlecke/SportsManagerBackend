@@ -37,9 +37,6 @@ public class UsuarioController {
     public ResponseEntity<Void> post(@RequestBody UsuarioDto dto) {
         log.info("POST /usuario");
 
-        log.info(usuarioDao.findByUsername(dto.getUsername()).getUsername());
-        log.info(usuarioDao.findByEmail(dto.getEmail()).getEmail());
-
         if (usuarioDao.findByUsername(dto.getUsername()).getUsername() != "") {
             log.warn("Usuario with username " + dto.getUsername() + " already exist");
             return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -57,15 +54,6 @@ public class UsuarioController {
             log.info("User " + dto.getUsername() + " created");
             return new ResponseEntity<>(HttpStatus.OK);
         }
-
-        // try {
-        // // verify if Usuario already exist
-
-        // } catch (Exception e) {
-        // log.error("Can´t post Usuario " + dto.getUsername());
-        // log.error("ERROR " + e);
-        // return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        // }
     }
 
     // Buscar por todos os Usuarios
