@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -128,12 +129,14 @@ public class UsuarioDao {
         }
     }
 
-    public void postUsuario(Usuario u) {
-
+    public Usuario postUsuario(Usuario u) {
         this.conexao.abrirConexao();
         String query = "INSERT INTO `usuarios` VALUES(null,?,?,?,?) ";
+
+        Usuario usuario = null;
+
         try {
-            PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
+            PreparedStatement st = this.conexao.getConexao().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
             st.setString(1, u.getEmail());
             st.setString(2, u.getUsername());
@@ -141,11 +144,17 @@ public class UsuarioDao {
             st.setTimestamp(4, ConversaoDeData.localDateTimeToTimestamp(u.getDataCriacao()));
 
             st.executeUpdate();
+
+            ResultSet rs = st.getGeneratedKeys();
+            if (rs.next()) {
+                usuario = this.findById(rs.getLong(1));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             conexao.fecharConexao();
         }
+        return usuario;
     }
 
     public void putUsuario(Usuario u, long idUsuario) {

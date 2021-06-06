@@ -34,7 +34,7 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> post(@RequestBody UsuarioDto dto) {
+    public ResponseEntity<Usuario> post(@RequestBody UsuarioDto dto) {
         log.info("POST /usuario");
 
         if (usuarioDao.findByUsername(dto.getUsername()).getUsername() != "") {
@@ -49,10 +49,9 @@ public class UsuarioController {
             u.setUsername(dto.getUsername());
             u.setEmail(dto.getEmail());
             u.setSenha(dto.getSenha());
-            usuarioDao.postUsuario(u);
 
             log.info("User " + dto.getUsername() + " created");
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(usuarioDao.postUsuario(u), HttpStatus.OK);
         }
     }
 
