@@ -98,6 +98,31 @@ public class UsuarioDao {
         }
     }
 
+    public Usuario findByEmail(String email) {
+        this.conexao.abrirConexao();
+
+        String query = "SELECT * FROM `usuarios` WHERE email=?";
+        // How to take in DB
+        try {
+            PreparedStatement ps = this.conexao.getConexao().prepareStatement(query);
+            ps.setString(1, email);
+            ResultSet rs = ps.executeQuery();
+
+            Usuario u = new Usuario();
+            if (rs.next()) {
+
+                u = new Usuario(rs.getLong("id_usuario"), rs.getString("username"), rs.getString("email"),
+                        rs.getString("senha"), ConversaoDeData.dateToLocalDateTime(rs.getDate("data_criacao")), null);
+            }
+            return u;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            conexao.fecharConexao();
+        }
+    }
+
     public void postUsuario(Usuario u) {
 
         this.conexao.abrirConexao();
@@ -106,8 +131,8 @@ public class UsuarioDao {
             PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
             Date dt = ConversaoDeData.localDateTimeToDate(u.getDataCriacao());
 
-            st.setString(1, u.getUsername());
-            st.setString(2, u.getEmail());
+            st.setString(1, u.getEmail());
+            st.setString(2, u.getUsername());
             st.setString(3, u.getSenha());
             st.setDate(4, dt);
 

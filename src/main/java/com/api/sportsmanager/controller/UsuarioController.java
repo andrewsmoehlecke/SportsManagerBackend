@@ -34,23 +34,38 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> post(@RequestBody Usuario u) {
+    public ResponseEntity<Void> post(@RequestBody UsuarioDto dto) {
         log.info("POST /usuario");
 
-        try {
-            // verify if Usuario already exist
-            if (usuarioDao.findByUsername(u.getUsername()) != null) {
-                log.warn("Usuario with name " + u.getUsername() + " already exist");
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
-            } else {
-                usuarioDao.postUsuario(u);
-                return new ResponseEntity<>(HttpStatus.OK);
-            }
-        } catch (Exception e) {
-            log.error("Can´t post Usuario " + u.getUsername());
-            log.error("ERROR " + e);
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        log.info(usuarioDao.findByUsername(dto.getUsername()).getUsername());
+        log.info(usuarioDao.findByEmail(dto.getEmail()).getEmail());
+
+        if (usuarioDao.findByUsername(dto.getUsername()).getUsername() != "") {
+            log.warn("Usuario with username " + dto.getUsername() + " already exist");
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        } else if (usuarioDao.findByEmail(dto.getEmail()).getEmail() != "") {
+            log.warn("Usuario with email " + dto.getEmail() + " already exist");
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        } else {
+            Usuario u = new Usuario();
+
+            u.setUsername(dto.getUsername());
+            u.setEmail(dto.getEmail());
+            u.setSenha(dto.getSenha());
+            usuarioDao.postUsuario(u);
+
+            log.info("User " + dto.getUsername() + " created");
+            return new ResponseEntity<>(HttpStatus.OK);
         }
+
+        // try {
+        // // verify if Usuario already exist
+
+        // } catch (Exception e) {
+        // log.error("Can´t post Usuario " + dto.getUsername());
+        // log.error("ERROR " + e);
+        // return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        // }
     }
 
     // Buscar por todos os Usuarios
@@ -78,7 +93,7 @@ public class UsuarioController {
         Usuario u = usuarioDao.findById(id);
         UsuarioDto dto = new UsuarioDto(u.getIdUsuario(), u.getUsername(), u.getEmail(), u.getSenha(),
                 u.getDataCriacao());
-        
+
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 

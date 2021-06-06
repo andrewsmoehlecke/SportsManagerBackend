@@ -20,7 +20,7 @@ import com.api.sportsmanager.util.ConversaoDeData;
 public class TimeDao {
 
     private static final Logger log = LoggerFactory.getLogger(TimeDao.class);
-    
+
     private ConexaoMysql conexao = new ConexaoMysql();
 
     public List<Time> findAll() {
@@ -37,18 +37,9 @@ public class TimeDao {
             // How to take in DB
             while (rs.next()) {
 
-                Time t = new Time(
-                    rs.getLong("id_time"),
-                    rs.getString("nome_time"),
-                    rs.getInt("num_vitoria"),
-                    rs.getInt("num_empate"),
-                    rs.getInt("num_derrota"),
-                    LocalDateTime.parse(rs.getString("data_criacao").replace(" ", "T")), 
-                    null, 
-                    null, 
-                    null, 
-                    null
-                );
+                Time t = new Time(rs.getLong("id_time"), rs.getString("nome"), rs.getInt("num_vitoria"),
+                        rs.getInt("num_empate"), rs.getInt("num_derrota"),
+                        LocalDateTime.parse(rs.getString("data_criacao").replace(" ", "T")), null, null, null, null);
                 allTimes.add(t);
             }
 
@@ -60,7 +51,7 @@ public class TimeDao {
             conexao.fecharConexao();
         }
     }
-    
+
     public Time findById(long id) {
         this.conexao.abrirConexao();
 
@@ -74,7 +65,7 @@ public class TimeDao {
             Time t = null;
             if (rs.next()) {
 
-                t = new Time(rs.getLong("id_time"), rs.getString("nome_time"), rs.getInt("num_vitoria"),
+                t = new Time(rs.getLong("id_time"), rs.getString("nome"), rs.getInt("num_vitoria"),
                         rs.getInt("num_empate"), rs.getInt("num_derrota"),
                         LocalDateTime.parse(rs.getString("data_criacao").replace(" ", "T")), null, null, null, null);
             }
@@ -86,7 +77,7 @@ public class TimeDao {
             conexao.fecharConexao();
         }
     }
-    
+
     public Time findByNomeTime(String nomeTime) {
         this.conexao.abrirConexao();
 
@@ -99,18 +90,9 @@ public class TimeDao {
 
             Time t = null;
             if (rs.next()) {
-                t = new Time(
-                    rs.getLong("id_time"),
-                    rs.getString("nome_time"),
-                    rs.getInt("num_vitoria"),
-                    rs.getInt("num_empate"),
-                    rs.getInt("num_derrota"),
-                    LocalDateTime.parse(rs.getString("data_criacao").replace(" ", "T")), 
-                    null, 
-                    null, 
-                    null, 
-                    null
-                );
+                t = new Time(rs.getLong("id_time"), rs.getString("nome_time"), rs.getInt("num_vitoria"),
+                        rs.getInt("num_empate"), rs.getInt("num_derrota"),
+                        LocalDateTime.parse(rs.getString("data_criacao").replace(" ", "T")), null, null, null, null);
             }
             return t;
         } catch (SQLException e) {
@@ -120,7 +102,7 @@ public class TimeDao {
             conexao.fecharConexao();
         }
     }
-    
+
     public void postTime(Time time) {
 
         this.conexao.abrirConexao();
@@ -142,7 +124,7 @@ public class TimeDao {
             conexao.fecharConexao();
         }
     }
-    
+
     public void putTime(Time time, long idTime) {
 
         this.conexao.abrirConexao();
@@ -166,7 +148,7 @@ public class TimeDao {
             conexao.fecharConexao();
         }
     }
-    
+
     public void delete(long id) {
         this.conexao.abrirConexao();
         String query = "DELETE FROM `time` WHERE id_time=?";
