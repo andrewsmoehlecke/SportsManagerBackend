@@ -8,6 +8,7 @@ public class UsuarioDto {
     private String email;
     private String senha;
     private LocalDateTime dataCriacao;
+    private String fotoPerfil;
 
     public UsuarioDto() {
         this.idUsuario = 0;
@@ -15,6 +16,7 @@ public class UsuarioDto {
         this.email = "";
         this.senha = "";
         this.dataCriacao = LocalDateTime.now();
+        this.setFotoPerfil(null);
     }
 
     public UsuarioDto(long idUsuario, String username, String email, String senha, LocalDateTime dataCriacao) {
@@ -23,6 +25,14 @@ public class UsuarioDto {
         this.email = email;
         this.senha = senha;
         this.dataCriacao = dataCriacao;
+    }
+
+    public String getFotoPerfil() {
+        return fotoPerfil;
+    }
+
+    public void setFotoPerfil(String fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
     }
 
     public long getIdUsuario() {

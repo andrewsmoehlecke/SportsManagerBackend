@@ -33,6 +33,23 @@ public class UsuarioController {
         this.usuarioDao = usuarioDao;
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<Usuario> login(@RequestBody UsuarioDto dto) {
+        Usuario u = usuarioDao.findByUsername(dto.getUsername());
+
+        if (u != null) {
+            if (u.getSenha().equals(dto.getSenha())) {
+                return new ResponseEntity<>(u, HttpStatus.OK);
+            } else {
+                log.warn("Password incorrect");
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        } else {
+            log.warn("Not found Usuario " + dto.getUsername());
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping
     public ResponseEntity<Usuario> post(@RequestBody UsuarioDto dto) {
         log.info("POST /usuario");

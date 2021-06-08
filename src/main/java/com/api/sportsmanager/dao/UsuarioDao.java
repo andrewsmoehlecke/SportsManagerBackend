@@ -38,7 +38,8 @@ public class UsuarioDao {
 
                 Usuario u = new Usuario(rs.getLong("id_usuario"), rs.getString("username"), rs.getString("email"),
                         rs.getString("senha"),
-                        ConversaoDeData.timestampToLocalDateTime(rs.getTimestamp("data_criacao")), null);
+                        ConversaoDeData.timestampToLocalDateTime(rs.getTimestamp("data_criacao")),
+                        rs.getString("foto_perfil"), null);
                 allTimes.add(u);
             }
 
@@ -66,7 +67,8 @@ public class UsuarioDao {
 
                 u = new Usuario(rs.getLong("id_usuario"), rs.getString("username"), rs.getString("email"),
                         rs.getString("senha"),
-                        ConversaoDeData.timestampToLocalDateTime(rs.getTimestamp("data_criacao")), null);
+                        ConversaoDeData.timestampToLocalDateTime(rs.getTimestamp("data_criacao")),
+                        rs.getString("foto_perfil"), null);
             }
             return u;
         } catch (SQLException e) {
@@ -92,7 +94,8 @@ public class UsuarioDao {
 
                 u = new Usuario(rs.getLong("id_usuario"), rs.getString("username"), rs.getString("email"),
                         rs.getString("senha"),
-                        ConversaoDeData.timestampToLocalDateTime(rs.getTimestamp("data_criacao")), null);
+                        ConversaoDeData.timestampToLocalDateTime(rs.getTimestamp("data_criacao")),
+                        rs.getString("foto_perfil"), null);
             }
             return u;
         } catch (SQLException e) {
@@ -118,7 +121,8 @@ public class UsuarioDao {
 
                 u = new Usuario(rs.getLong("id_usuario"), rs.getString("username"), rs.getString("email"),
                         rs.getString("senha"),
-                        ConversaoDeData.timestampToLocalDateTime(rs.getTimestamp("data_criacao")), null);
+                        ConversaoDeData.timestampToLocalDateTime(rs.getTimestamp("data_criacao")),
+                        rs.getString("foto_perfil"), null);
             }
             return u;
         } catch (SQLException e) {
@@ -131,7 +135,7 @@ public class UsuarioDao {
 
     public Usuario postUsuario(Usuario u) {
         this.conexao.abrirConexao();
-        String query = "INSERT INTO `usuarios` VALUES(null,?,?,?,?) ";
+        String query = "INSERT INTO `usuarios` VALUES(null,?,?,?,?,?) ";
 
         Usuario usuario = null;
 
@@ -141,7 +145,8 @@ public class UsuarioDao {
             st.setString(1, u.getEmail());
             st.setString(2, u.getUsername());
             st.setString(3, u.getSenha());
-            st.setTimestamp(4, ConversaoDeData.localDateTimeToTimestamp(u.getDataCriacao()));
+            st.setString(4, u.getFotoPerfil());
+            st.setTimestamp(5, ConversaoDeData.localDateTimeToTimestamp(u.getDataCriacao()));
 
             st.executeUpdate();
 
@@ -160,7 +165,7 @@ public class UsuarioDao {
     public void putUsuario(Usuario u, long idUsuario) {
 
         this.conexao.abrirConexao();
-        String query = "UPDATE `usuarios` SET username=?, email=?, senha=?, data_criacao=? WHERE id_usuario=?";
+        String query = "UPDATE `usuarios` SET username=?, email=?, senha=?, foto_perfil=?, data_criacao=? WHERE id_usuario=?";
         try {
             PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
 
@@ -168,7 +173,8 @@ public class UsuarioDao {
             st.setString(2, u.getEmail());
             st.setString(3, u.getSenha());
             st.setTimestamp(4, ConversaoDeData.localDateTimeToTimestamp(u.getDataCriacao()));
-            st.setLong(5, idUsuario);
+            st.setString(5, u.getFotoPerfil());
+            st.setLong(6, idUsuario);
 
             st.executeUpdate();
         } catch (SQLException e) {

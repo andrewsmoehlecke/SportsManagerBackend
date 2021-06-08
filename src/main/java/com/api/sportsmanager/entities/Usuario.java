@@ -10,6 +10,7 @@ public class Usuario {
     private String email;
     private String senha;
     private LocalDateTime dataCriacao;
+    private String fotoPerfil;
     private List<UsuarioTime> usuarioTime;
 
     public Usuario() {
@@ -18,17 +19,27 @@ public class Usuario {
         this.email = "";
         this.senha = "";
         this.dataCriacao = LocalDateTime.now();
+        this.setFotoPerfil(null);
         this.setUsuarioTime(new ArrayList<UsuarioTime>());
     }
 
     public Usuario(long idUsuario, String username, String email, String senha, LocalDateTime dataCriacao,
-            List<UsuarioTime> usuarioTime) {
+            String fotoPerfil, List<UsuarioTime> usuarioTime) {
         this.idUsuario = idUsuario;
         this.username = username;
         this.email = email;
         this.senha = senha;
         this.dataCriacao = dataCriacao;
+        this.setFotoPerfil(fotoPerfil);
         this.setUsuarioTime(usuarioTime);
+    }
+
+    public String getFotoPerfil() {
+        return fotoPerfil;
+    }
+
+    public void setFotoPerfil(String fotoPerfil) {
+        this.fotoPerfil = fotoPerfil;
     }
 
     public List<UsuarioTime> getUsuarioTime() {
