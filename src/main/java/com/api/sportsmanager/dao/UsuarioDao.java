@@ -145,8 +145,8 @@ public class UsuarioDao {
             st.setString(1, u.getEmail());
             st.setString(2, u.getUsername());
             st.setString(3, u.getSenha());
-            st.setString(4, u.getFotoPerfil());
-            st.setTimestamp(5, ConversaoDeData.localDateTimeToTimestamp(u.getDataCriacao()));
+            st.setTimestamp(4, ConversaoDeData.localDateTimeToTimestamp(u.getDataCriacao()));
+            st.setString(5, u.getFotoPerfil());
 
             st.executeUpdate();
 

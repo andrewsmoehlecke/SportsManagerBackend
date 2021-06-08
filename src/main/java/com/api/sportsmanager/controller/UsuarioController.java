@@ -53,6 +53,10 @@ public class UsuarioController {
     @PostMapping
     public ResponseEntity<Usuario> post(@RequestBody UsuarioDto dto) {
         log.info("POST /usuario");
+        log.info(dto.getUsername());
+
+        log.info(dto.getFotoPerfil());
+        log.info(dto.getDataCriacao() + "");
 
         if (usuarioDao.findByUsername(dto.getUsername()).getUsername() != "") {
             log.warn("Usuario with username " + dto.getUsername() + " already exist");
@@ -66,6 +70,7 @@ public class UsuarioController {
             u.setUsername(dto.getUsername());
             u.setEmail(dto.getEmail());
             u.setSenha(dto.getSenha());
+            u.setFotoPerfil(dto.getFotoPerfil());
 
             log.info("User " + dto.getUsername() + " created");
             return new ResponseEntity<>(usuarioDao.postUsuario(u), HttpStatus.OK);
