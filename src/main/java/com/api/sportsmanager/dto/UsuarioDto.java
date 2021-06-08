@@ -19,12 +19,14 @@ public class UsuarioDto {
         this.setFotoPerfil(null);
     }
 
-    public UsuarioDto(long idUsuario, String username, String email, String senha, LocalDateTime dataCriacao) {
+    public UsuarioDto(long idUsuario, String username, String email, String senha, LocalDateTime dataCriacao,
+            String fotoPerfil) {
         this.idUsuario = idUsuario;
         this.username = username;
         this.email = email;
         this.senha = senha;
         this.dataCriacao = dataCriacao;
+        this.fotoPerfil = fotoPerfil;
     }
 
     public String getFotoPerfil() {

@@ -82,7 +82,7 @@ public class UsuarioController {
 
         for (Usuario u : allUsuarios) {
             UsuarioDto dto = new UsuarioDto(u.getIdUsuario(), u.getUsername(), u.getEmail(), u.getSenha(),
-                    u.getDataCriacao());
+                    u.getDataCriacao(), u.getFotoPerfil());
 
             allUsuariosDto.add(dto);
         }
@@ -96,7 +96,7 @@ public class UsuarioController {
 
         Usuario u = usuarioDao.findById(id);
         UsuarioDto dto = new UsuarioDto(u.getIdUsuario(), u.getUsername(), u.getEmail(), u.getSenha(),
-                u.getDataCriacao());
+                u.getDataCriacao(), u.getFotoPerfil());
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
