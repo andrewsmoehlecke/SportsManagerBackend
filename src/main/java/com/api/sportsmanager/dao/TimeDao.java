@@ -3,6 +3,7 @@ package com.api.sportsmanager.dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -103,12 +104,14 @@ public class TimeDao {
         }
     }
 
-    public void postTime(Time time) {
+    public Time postTime(Time time) {
 
         this.conexao.abrirConexao();
         String query = "INSERT INTO `time` VALUES(null,?,?,?,?,?) ";
+
+        Time t = null;
         try {
-            PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
+            PreparedStatement st = this.conexao.getConexao().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
             st.setString(1, time.getNomeTime());
             st.setInt(2, time.getNumVitoria());
@@ -117,17 +120,25 @@ public class TimeDao {
             st.setTimestamp(5, ConversaoDeData.localDateTimeToTimestamp(time.getDataCriacao()));
 
             st.executeUpdate();
+
+            ResultSet rs = st.getGeneratedKeys();
+            if (rs.next()) {
+                t = this.findById(rs.getLong(1));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             conexao.fecharConexao();
         }
+        return t;
     }
 
-    public void putTime(Time time, long idTime) {
+    public Time putTime(Time time, long idTime) {
 
         this.conexao.abrirConexao();
         String query = "UPDATE `time` SET nome=?, num_vitoria=?, num_empate=?, num_derrota=?, data_criacao=? WHERE id_time=?";
+
+        Time t = null;
         try {
             PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
 
@@ -139,11 +150,17 @@ public class TimeDao {
             st.setLong(6, idTime);
 
             st.executeUpdate();
+
+            ResultSet rs = st.getGeneratedKeys();
+            if (rs.next()) {
+                t = this.findById(rs.getLong(1));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             conexao.fecharConexao();
         }
+        return t;
     }
 
     public void delete(long id) {

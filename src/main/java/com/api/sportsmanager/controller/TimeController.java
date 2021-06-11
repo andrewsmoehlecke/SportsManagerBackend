@@ -36,7 +36,7 @@ public class TimeController {
 
     // Criar novo time
     @PostMapping
-    public ResponseEntity<Void> post(@RequestBody Time time) {
+    public ResponseEntity<TimeDto> post(@RequestBody Time time) {
         log.info("Post /time");
 
         try {
@@ -45,8 +45,11 @@ public class TimeController {
                 log.warn("Time with name " + time.getNomeTime() + " already exist");
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
             } else {
-                timeDao.postTime(time);
-                return new ResponseEntity<>(HttpStatus.OK);
+                Time t = timeDao.postTime(time);
+
+                TimeDto dto = new TimeDto(t.getIdTime(), t.getNomeTime(), t.getNumVitoria(), t.getNumEmpate(),
+                        t.getNumDerrota(), t.getDataCriacao());
+                return new ResponseEntity<>(dto, HttpStatus.OK);
             }
         } catch (Exception e) {
             log.error("Can´t post time " + time.getNomeTime());
@@ -86,11 +89,19 @@ public class TimeController {
 
     // atualizar time pelo id
     @PutMapping("/{id}")
-    public ResponseEntity<Void> put(@PathVariable("id") long idTime, @RequestBody Time time) {
+    public ResponseEntity<TimeDto> put(@PathVariable("id") long idTime, @RequestBody TimeDto t) {
         log.info("PUT /time/" + idTime);
-        // Att Time here
-        timeDao.putTime(time, idTime);
-        return new ResponseEntity<>(HttpStatus.OK);
+        log.info(t.toString());
+
+        Time time = new Time(t.getIdTime(), t.getNomeTime(), t.getNumVitoria(), t.getNumEmpate(), t.getNumDerrota(),
+                t.getDataCriacao(), null, null, null, null);
+
+        time = timeDao.putTime(time, idTime);
+
+        TimeDto dto = new TimeDto(t.getIdTime(), t.getNomeTime(), t.getNumVitoria(), t.getNumEmpate(),
+                t.getNumDerrota(), t.getDataCriacao());
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     // deletar time pelo id
