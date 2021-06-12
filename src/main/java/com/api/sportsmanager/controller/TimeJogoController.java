@@ -55,7 +55,7 @@ public class TimeJogoController {
 
         for (TimeJogo tj : allTimeJogo) {
             TimeJogoDto dto = new TimeJogoDto(tj.getIdTimeJogo(), tj.getLocal(), tj.getPontuacaoTime1(),
-                    tj.getPontuacaoTime2(), tj.getDataJogo(), tj.getTime().getIdTime(), tj.getJogo().getIdJogo());
+                    tj.getPontuacaoTime2(), tj.getDataJogo(), tj.getTime1().getIdTime(), tj.getTime2().getIdTime());
 
             allTimeJogoDto.add(dto);
         }
@@ -68,7 +68,7 @@ public class TimeJogoController {
 
         TimeJogo tj = timeJogoDao.findById(id);
         TimeJogoDto dto = new TimeJogoDto(tj.getIdTimeJogo(), tj.getLocal(), tj.getPontuacaoTime1(),
-                tj.getPontuacaoTime2(), tj.getDataJogo(), tj.getTime().getIdTime(), tj.getJogo().getIdJogo());
+                tj.getPontuacaoTime2(), tj.getDataJogo(), tj.getTime1().getIdTime(), tj.getTime2().getIdTime());
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }

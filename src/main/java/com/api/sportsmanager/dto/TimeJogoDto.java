@@ -8,8 +8,8 @@ public class TimeJogoDto {
     private int pontuacaoTime1;
     private int pontuacaoTime2;
     private LocalDateTime dataJogo;
-    private long idTime;
-    private long idJogo;
+    private long time1;
+    private long time2;
 
     public TimeJogoDto() {
         this.idTimeJogo = 0;
@@ -17,35 +17,35 @@ public class TimeJogoDto {
         this.pontuacaoTime1 = 0;
         this.pontuacaoTime2 = 0;
         this.dataJogo = LocalDateTime.now();
-        this.setIdTime(0);
-        this.setIdJogo(0);
+        this.time1 = 0;
+        this.time2 = 0;
     }
 
     public TimeJogoDto(long idTimeJogo, String local, int pontuacaoTime1, int pontuacaoTime2, LocalDateTime dataJogo,
-            long idTime, long idJogo) {
+            long time1, long time2) {
         this.idTimeJogo = idTimeJogo;
         this.local = local;
         this.pontuacaoTime1 = pontuacaoTime1;
         this.pontuacaoTime2 = pontuacaoTime2;
         this.dataJogo = dataJogo;
-        this.setIdTime(idTime);
-        this.setIdJogo(idJogo);
+        this.time1 = time1;
+        this.time2 = time2;
     }
 
-    public long getIdJogo() {
-        return idJogo;
+    public long getTime1() {
+        return time1;
     }
 
-    public void setIdJogo(long idJogo) {
-        this.idJogo = idJogo;
+    public void setTime1(long time1) {
+        this.time1 = time1;
     }
 
-    public long getIdTime() {
-        return idTime;
+    public long getTime2() {
+        return time2;
     }
 
-    public void setIdTime(long idTime) {
-        this.idTime = idTime;
+    public void setTime2(long time2) {
+        this.time2 = time2;
     }
 
     public long getIdTimeJogo() {
@@ -87,4 +87,12 @@ public class TimeJogoDto {
     public void setDataJogo(LocalDateTime dataJogo) {
         this.dataJogo = dataJogo;
     }
+
+    @Override
+    public String toString() {
+        return "TimeJogoDto [dataJogo=" + dataJogo + ", idTimeJogo=" + idTimeJogo + ", local=" + local
+                + ", pontuacaoTime1=" + pontuacaoTime1 + ", pontuacaoTime2=" + pontuacaoTime2 + ", time1=" + time1
+                + ", time2=" + time2 + "]";
+    }
+
 }

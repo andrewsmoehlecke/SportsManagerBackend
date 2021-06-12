@@ -33,12 +33,11 @@ public class TimeJogoDao {
             // How to take in DB
             while (rs.next()) {
                 TimeDao timeDao = new TimeDao();
-                JogoDao jogoDao = new JogoDao();
 
                 TimeJogo tj = new TimeJogo(rs.getLong("id_time_jogos"), rs.getString("local"),
                         rs.getInt("pontuacao_time_1"), rs.getInt("pontuacao_time_2"),
                         ConversaoDeData.timestampToLocalDateTime(rs.getTimestamp("data_jogo")),
-                        timeDao.findById(rs.getLong("id_time")), jogoDao.findById(rs.getLong("id_jogo")));
+                        timeDao.findById(rs.getLong("id_time_1")), timeDao.findById(rs.getLong("id_time_2")));
 
                 allTimeJogo.add(tj);
             }
@@ -55,7 +54,7 @@ public class TimeJogoDao {
     public TimeJogo findById(long id) {
         this.conexao.abrirConexao();
 
-        String query = "SELECT * FROM `time_jogo` WHERE id_time_jogo=?";
+        String query = "SELECT * FROM `time_jogos` WHERE id_time_jogo=?";
 
         TimeJogo tj = null;
         // How to take in DB
@@ -66,12 +65,11 @@ public class TimeJogoDao {
 
             if (rs.next()) {
                 TimeDao timeDao = new TimeDao();
-                JogoDao jogoDao = new JogoDao();
 
                 tj = new TimeJogo(rs.getLong("id_time_jogos"), rs.getString("local"), rs.getInt("pontuacao_time_1"),
                         rs.getInt("pontuacao_time_2"),
                         ConversaoDeData.timestampToLocalDateTime(rs.getTimestamp("data_jogo")),
-                        timeDao.findById(rs.getLong("id_time")), jogoDao.findById(rs.getLong("id_jogo")));
+                        timeDao.findById(rs.getLong("id_time_1")), timeDao.findById(rs.getLong("id_time_2")));
             }
         } catch (SQLException error) {
             error.printStackTrace();
@@ -84,7 +82,7 @@ public class TimeJogoDao {
     public void postTimeJogo(TimeJogo tj) {
 
         this.conexao.abrirConexao();
-        String query = "INSERT INTO `time_jogo` VALUES(null,?,?,?,?,?,?)";
+        String query = "INSERT INTO `time_jogos` VALUES(null,?,?,?,?,?,?)";
         try {
             PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
 
@@ -92,8 +90,8 @@ public class TimeJogoDao {
             st.setInt(2, tj.getPontuacaoTime1());
             st.setInt(3, tj.getPontuacaoTime2());
             st.setTimestamp(4, ConversaoDeData.localDateTimeToTimestamp(tj.getDataJogo()));
-            st.setLong(5, tj.getTime().getIdTime());
-            st.setLong(6, tj.getJogo().getIdJogo());
+            st.setLong(5, tj.getTime1().getIdTime());
+            st.setLong(6, tj.getTime2().getIdTime());
 
             st.executeUpdate();
         } catch (SQLException error) {
@@ -106,7 +104,7 @@ public class TimeJogoDao {
     public void putTimeJogo(TimeJogo tj, long idTimeJogo) {
 
         this.conexao.abrirConexao();
-        String query = "UPDATE `time_jogo` SET local=?, pontuacao_time_1=?, pontuacao_time_2=?, data_jogo=?, id_time=?,  WHERE id_time_jogo=?";
+        String query = "UPDATE `time_jogos` SET local=?, pontuacao_time_1=?, pontuacao_time_2=?, data_jogo=?, id_time_1=?, id_time_2=?  WHERE id_time_jogo=?";
         try {
             PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
 
@@ -114,8 +112,8 @@ public class TimeJogoDao {
             st.setInt(2, tj.getPontuacaoTime1());
             st.setInt(3, tj.getPontuacaoTime2());
             st.setTimestamp(4, ConversaoDeData.localDateTimeToTimestamp(tj.getDataJogo()));
-            st.setLong(5, tj.getTime().getIdTime());
-            st.setLong(6, tj.getJogo().getIdJogo());
+            st.setLong(5, tj.getTime1().getIdTime());
+            st.setLong(6, tj.getTime2().getIdTime());
 
             st.executeUpdate();
         } catch (SQLException error) {
@@ -127,7 +125,7 @@ public class TimeJogoDao {
 
     public void delete(long id) {
         this.conexao.abrirConexao();
-        String query = "DELETE FROM `time_jogo` WHERE id_time_jogo=?";
+        String query = "DELETE FROM `time_jogos` WHERE id_time_jogo=?";
         try {
             PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
             st.setLong(1, id);

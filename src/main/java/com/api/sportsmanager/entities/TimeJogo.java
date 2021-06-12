@@ -1,4 +1,5 @@
 package com.api.sportsmanager.entities;
+
 import java.time.LocalDateTime;
 
 public class TimeJogo {
@@ -7,8 +8,8 @@ public class TimeJogo {
     private int pontuacaoTime1;
     private int pontuacaoTime2;
     private LocalDateTime dataJogo;
-    private Time time;
-    private Jogo jogo;
+    private Time time1;
+    private Time time2;
 
     public TimeJogo() {
         this.idTimeJogo = 0;
@@ -16,19 +17,19 @@ public class TimeJogo {
         this.pontuacaoTime1 = 0;
         this.pontuacaoTime2 = 0;
         this.dataJogo = LocalDateTime.now();
-        this.time = new Time();
-        this.jogo = new Jogo();
+        this.time1 = new Time();
+        this.time2 = new Time();
     }
 
     public TimeJogo(long idTimeJogo, String local, int pontuacaoTime1, int pontuacaoTime2, LocalDateTime dataJogo,
-            Time time, Jogo jogo) {
+            Time time1, Time time2) {
         this.idTimeJogo = idTimeJogo;
         this.local = local;
         this.pontuacaoTime1 = pontuacaoTime1;
         this.pontuacaoTime2 = pontuacaoTime2;
         this.dataJogo = dataJogo;
-        this.time = time;
-        this.jogo = jogo;
+        this.time1 = time1;
+        this.time2 = time2;
     }
 
     public long getIdTimeJogo() {
@@ -71,26 +72,26 @@ public class TimeJogo {
         this.dataJogo = dataJogo;
     }
 
-    public Time getTime() {
-        return time;
+    public Time getTime1() {
+        return time1;
     }
 
-    public void setTime(Time time) {
-        this.time = time;
+    public void setTime1(Time time1) {
+        this.time1 = time1;
     }
 
-    public Jogo getJogo() {
-        return jogo;
+    public Time getTime2() {
+        return time2;
     }
 
-    public void setJogo(Jogo jogo) {
-        this.jogo = jogo;
+    public void setTime2(Time time2) {
+        this.time2 = time2;
     }
 
     @Override
     public String toString() {
-        return "TimeJogo [dataJogo=" + dataJogo + ", idTimeJogo=" + idTimeJogo + ", jogo=" + jogo + ", local=" + local
-                + ", pontuacaoTime1=" + pontuacaoTime1 + ", pontuacaoTime2=" + pontuacaoTime2 + ", time=" + time + "]";
+        return "TimeJogo [dataJogo=" + dataJogo + ", idTimeJogo=" + idTimeJogo + ", local=" + local
+                + ", pontuacaoTime1=" + pontuacaoTime1 + ", pontuacaoTime2=" + pontuacaoTime2 + ", time1=" + time1
+                + ", time2=" + time2 + "]";
     }
-
 }
