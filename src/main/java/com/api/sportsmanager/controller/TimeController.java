@@ -91,7 +91,6 @@ public class TimeController {
     @PutMapping("/{id}")
     public ResponseEntity<TimeDto> put(@PathVariable("id") long idTime, @RequestBody TimeDto t) {
         log.info("PUT /time/" + idTime);
-        log.info(t.toString());
 
         Time time = new Time(t.getIdTime(), t.getNomeTime(), t.getNumVitoria(), t.getNumEmpate(), t.getNumDerrota(),
                 t.getDataCriacao(), null, null, null, null);

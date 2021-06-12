@@ -53,10 +53,6 @@ public class UsuarioController {
     @PostMapping
     public ResponseEntity<Usuario> post(@RequestBody UsuarioDto dto) {
         log.info("POST /usuario");
-        log.info(dto.getUsername());
-
-        log.info(dto.getFotoPerfil());
-        log.info(dto.getDataCriacao() + "");
 
         if (usuarioDao.findByUsername(dto.getUsername()).getUsername() != "") {
             log.warn("Usuario with username " + dto.getUsername() + " already exist");
