@@ -54,13 +54,14 @@ public class UsuarioDao {
         this.conexao.abrirConexao();
 
         String query = "SELECT * FROM `usuarios` WHERE id_usuario=?";
+
+        Usuario u = null;
         // How to take in DB
         try {
             PreparedStatement ps = this.conexao.getConexao().prepareStatement(query);
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
 
-            Usuario u = new Usuario();
             if (rs.next()) {
 
                 u = new Usuario(rs.getLong("id_usuario"), rs.getString("username"), rs.getString("email"),
@@ -68,13 +69,13 @@ public class UsuarioDao {
                         ConversaoDeData.timestampToLocalDateTime(rs.getTimestamp("data_criacao")),
                         rs.getString("foto_perfil"), null);
             }
-            return u;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         } finally {
             conexao.fecharConexao();
         }
+        return u;
     }
 
     public Usuario findByUsername(String username) {
@@ -165,7 +166,7 @@ public class UsuarioDao {
     public Usuario putUsuario(Usuario u, long idUsuario) {
 
         this.conexao.abrirConexao();
-        String query = "UPDATE `usuarios` SET username=?, email=?, senha=?, foto_perfil=?, data_criacao=? WHERE id_usuario=?";
+        String query = "UPDATE `usuarios` SET username=?, email=?, senha=?, foto_perfil=? WHERE id_usuario=?";
 
         Usuario usuario = null;
         try {
@@ -174,9 +175,8 @@ public class UsuarioDao {
             st.setString(1, u.getUsername());
             st.setString(2, u.getEmail());
             st.setString(3, u.getSenha());
-            st.setTimestamp(4, ConversaoDeData.localDateTimeToTimestamp(u.getDataCriacao()));
-            st.setString(5, u.getFotoPerfil());
-            st.setLong(6, idUsuario);
+            st.setString(4, u.getFotoPerfil());
+            st.setLong(5, idUsuario);
 
             st.executeUpdate();
 

@@ -108,20 +108,19 @@ public class UsuarioController {
 
     // atualizar Usuario pelo id
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioDto> put(@PathVariable("id") long id, @RequestBody Usuario usuario) {
+    public ResponseEntity<UsuarioDto> put(@PathVariable("id") long id, @RequestBody UsuarioDto dto) {
         log.info("PUT /usuario/" + id);
 
-        if (usuarioDao.findByUsername(usuario.getUsername()) != null) {
-            log.warn("Usuario with name " + usuario.getUsername() + " already exist");
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
-        } else {
-            Usuario u = usuarioDao.putUsuario(usuario, id);
+        Usuario u = new Usuario();
 
-            UsuarioDto dto = new UsuarioDto(u.getIdUsuario(), u.getUsername(), u.getEmail(), u.getSenha(),
-                    u.getDataCriacao(), u.getFotoPerfil());
+        u.setUsername(dto.getUsername());
+        u.setEmail(dto.getEmail());
+        u.setSenha(dto.getSenha());
+        u.setFotoPerfil(dto.getFotoPerfil());
 
-            return new ResponseEntity<>(dto, HttpStatus.OK);
-        }
+        usuarioDao.putUsuario(u, id);
+
+        return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     // deletar Usuario pelo id

@@ -92,8 +92,8 @@ public class Usuario {
 
     @Override
     public String toString() {
-        return "Usuario [dataCriacao=" + dataCriacao + ", email=" + email + ", idUsuario=" + idUsuario + ", senha="
-                + senha + ", username=" + username + "]";
+        return "Usuario [dataCriacao=" + dataCriacao + ", email=" + email + ", fotoPerfil=" + fotoPerfil
+                + ", idUsuario=" + idUsuario + ", senha=" + senha + ", username=" + username + ", usuarioTime="
+                + usuarioTime + "]";
     }
-
 }
