@@ -93,7 +93,7 @@ public class TimeController {
         log.info("PUT /time/" + idTime);
 
         Time time = new Time(t.getIdTime(), t.getNomeTime(), t.getNumVitoria(), t.getNumEmpate(), t.getNumDerrota(),
-                t.getDataCriacao(), null, null, null, null);
+                t.getDataCriacao(), null, null, null);
 
         time = timeDao.putTime(time, idTime);
 

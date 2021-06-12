@@ -34,7 +34,7 @@ public class EsporteDao {
             while (rs.next()) {
 
                 Esporte e = new Esporte(rs.getLong("id_esporte"), rs.getString("nome"), rs.getString("logo"),
-                        rs.getString("plataforma"), null, null, null);
+                        rs.getString("plataforma"), null, null);
 
                 allTimes.add(e);
             }
@@ -62,7 +62,7 @@ public class EsporteDao {
 
             if (rs.next()) {
                 e = new Esporte(rs.getLong("id_esporte"), rs.getString("nome"), rs.getString("logo"),
-                        rs.getString("plataforma"), null, null, null);
+                        rs.getString("plataforma"), null, null);
             }
         } catch (SQLException error) {
             error.printStackTrace();
@@ -86,7 +86,7 @@ public class EsporteDao {
 
             if (rs.next()) {
                 e = new Esporte(rs.getLong("id_esporte"), rs.getString("nome"), rs.getString("logo"),
-                        rs.getString("plataforma"), null, null, null);
+                        rs.getString("plataforma"), null, null);
             }
         } catch (SQLException error) {
             error.printStackTrace();

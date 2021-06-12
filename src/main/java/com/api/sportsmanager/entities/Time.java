@@ -15,7 +15,6 @@ public class Time {
     private List<UsuarioTime> usuarioTime;
     private List<EsporteTime> esporteTime;
     private List<TimeJogo> timeJogo;
-    private List<CampeonatoTime> campeonatoTime;
 
     public Time() {
         this.idTime = 0;
@@ -27,12 +26,10 @@ public class Time {
         this.usuarioTime = new ArrayList<UsuarioTime>();
         this.esporteTime = new ArrayList<EsporteTime>();
         this.timeJogo = new ArrayList<TimeJogo>();
-        this.campeonatoTime = new ArrayList<CampeonatoTime>();
     }
 
     public Time(long id_time, String nomeTime, int numVitoria, int numEmpate, int numDerrota, LocalDateTime dataCriacao,
-            List<UsuarioTime> usuarioTime, List<EsporteTime> esporteTime, List<TimeJogo> timeJogo,
-            List<CampeonatoTime> campeonatoTime) {
+            List<UsuarioTime> usuarioTime, List<EsporteTime> esporteTime, List<TimeJogo> timeJogo) {
         this.idTime = id_time;
         this.nomeTime = nomeTime;
         this.numVitoria = numVitoria;
@@ -42,9 +39,8 @@ public class Time {
         this.usuarioTime = usuarioTime;
         this.esporteTime = esporteTime;
         this.timeJogo = timeJogo;
-        this.campeonatoTime = campeonatoTime;
     }
-    
+
     public List<TimeJogo> getTimeJogo() {
         return timeJogo;
     }
@@ -101,14 +97,6 @@ public class Time {
         this.numEmpate = numEmpate;
     }
 
-    public List<CampeonatoTime> getCampeonatoTime() {
-        return campeonatoTime;
-    }
-
-    public void setCampeonatoTime(List<CampeonatoTime> campeonatoTime) {
-        this.campeonatoTime = campeonatoTime;
-    }
-
     public int getNumDerrota() {
         return numDerrota;
     }
@@ -127,9 +115,9 @@ public class Time {
 
     @Override
     public String toString() {
-        return "Time [campeonatoTime=" + campeonatoTime + ", dataCriacao=" + dataCriacao + ", esporteTime="
-                + esporteTime + ", idTime=" + idTime + ", nomeTime=" + nomeTime + ", numDerrota=" + numDerrota
-                + ", numEmpates=" + numEmpate + ", numVitoria=" + numVitoria + ", timeJogo=" + timeJogo + ", usuarioTime=" + usuarioTime + "]";
+        return "Time [dataCriacao=" + dataCriacao + ", esporteTime=" + esporteTime + ", idTime=" + idTime
+                + ", nomeTime=" + nomeTime + ", numDerrota=" + numDerrota + ", numEmpates=" + numEmpate
+                + ", numVitoria=" + numVitoria + ", timeJogo=" + timeJogo + ", usuarioTime=" + usuarioTime + "]";
     }
 
 }

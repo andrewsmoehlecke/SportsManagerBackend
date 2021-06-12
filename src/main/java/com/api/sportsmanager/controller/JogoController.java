@@ -55,8 +55,7 @@ public class JogoController {
         List<JogoDto> allJogosDto = new ArrayList<JogoDto>();
 
         for (Jogo j : allJogos) {
-            JogoDto dto = new JogoDto(j.getIdJogo(), j.getPontuacaoTime1(), j.getPontuacaoTime2(),
-                    j.getCampeonato().getIdCampeonato());
+            JogoDto dto = new JogoDto(j.getIdJogo(), j.getPontuacaoTime1(), j.getPontuacaoTime2());
 
             allJogosDto.add(dto);
         }
@@ -68,8 +67,7 @@ public class JogoController {
         log.info("GET /jogo/" + id);
 
         Jogo j = jogoDao.findById(id);
-        JogoDto dto = new JogoDto(j.getIdJogo(), j.getPontuacaoTime1(), j.getPontuacaoTime2(),
-                j.getCampeonato().getIdCampeonato());
+        JogoDto dto = new JogoDto(j.getIdJogo(), j.getPontuacaoTime1(), j.getPontuacaoTime2());
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }

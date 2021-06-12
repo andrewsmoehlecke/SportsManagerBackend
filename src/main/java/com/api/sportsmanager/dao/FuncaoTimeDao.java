@@ -1,27 +1,22 @@
 package com.api.sportsmanager.dao;
 
-import org.springframework.stereotype.Service;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.api.sportsmanager.entities.FuncaoTime;
+import com.api.sportsmanager.persistencia.ConexaoMysql;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import com.api.sportsmanager.entities.Campeonato;
-import com.api.sportsmanager.entities.Esporte;
-import com.api.sportsmanager.entities.FuncaoTime;
-import com.api.sportsmanager.persistencia.ConexaoMysql;
-import com.api.sportsmanager.util.ConversaoDeData;
-
 @Service
 public class FuncaoTimeDao {
     private static final Logger log = LoggerFactory.getLogger(FuncaoTimeDao.class);
-    
+
     private ConexaoMysql conexao = new ConexaoMysql();
 
     public List<FuncaoTime> findAll() {
@@ -51,7 +46,7 @@ public class FuncaoTimeDao {
             conexao.fecharConexao();
         }
     }
-    
+
     public FuncaoTime findById(long id) {
         this.conexao.abrirConexao();
 
@@ -95,7 +90,7 @@ public class FuncaoTimeDao {
             conexao.fecharConexao();
         }
     }
-    
+
     public void putFuncaoTime(FuncaoTime ft, long idFuncaoTime) {
 
         this.conexao.abrirConexao();

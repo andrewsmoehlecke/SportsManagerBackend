@@ -1,4 +1,5 @@
 package com.api.sportsmanager.entities;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,17 +10,15 @@ public class Esporte {
     private String plataforma;
     private List<EsporteTime> esporteTime;
     private List<FuncaoTime> funcaoTime;
-    private List<Campeonato> campeonato;
 
     public Esporte(long idEsporte, String nome, String logo, String plataforma, List<EsporteTime> esporteTime,
-            List<FuncaoTime> funcaoTime, List<Campeonato> campeonato) {
+            List<FuncaoTime> funcaoTime) {
         this.idEsporte = idEsporte;
         this.nome = nome;
         this.logo = logo;
         this.plataforma = plataforma;
         this.esporteTime = esporteTime;
         this.funcaoTime = funcaoTime;
-        this.campeonato = campeonato;
     }
 
     public Esporte() {
@@ -30,15 +29,6 @@ public class Esporte {
         this.plataforma = "";
         this.esporteTime = new ArrayList<EsporteTime>();
         this.funcaoTime = new ArrayList<FuncaoTime>();
-        this.campeonato = new ArrayList<Campeonato>();
-    }
-
-    public List<Campeonato> getCampeonato() {
-        return campeonato;
-    }
-
-    public void setCampeonato(List<Campeonato> campeonato) {
-        this.campeonato = campeonato;
     }
 
     public List<FuncaoTime> getFuncaoTime() {
@@ -91,8 +81,8 @@ public class Esporte {
 
     @Override
     public String toString() {
-        return "Esporte [campeonato=" + campeonato + ", esporteTime=" + esporteTime + ", funcaoTime=" + funcaoTime
-                + ", idEsporte=" + idEsporte + ", logo=" + logo + ", nome=" + nome + ", plataforma=" + plataforma + "]";
+        return "Esporte [esporteTime=" + esporteTime + ", funcaoTime=" + funcaoTime + ", idEsporte=" + idEsporte
+                + ", logo=" + logo + ", nome=" + nome + ", plataforma=" + plataforma + "]";
     }
 
 }

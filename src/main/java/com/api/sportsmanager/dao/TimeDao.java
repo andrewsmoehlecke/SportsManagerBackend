@@ -4,18 +4,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
-
 import com.api.sportsmanager.entities.Time;
 import com.api.sportsmanager.persistencia.ConexaoMysql;
 import com.api.sportsmanager.util.ConversaoDeData;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 @Service
 public class TimeDao {
@@ -40,7 +39,7 @@ public class TimeDao {
 
                 Time t = new Time(rs.getLong("id_time"), rs.getString("nome"), rs.getInt("num_vitoria"),
                         rs.getInt("num_empate"), rs.getInt("num_derrota"),
-                        LocalDateTime.parse(rs.getString("data_criacao").replace(" ", "T")), null, null, null, null);
+                        LocalDateTime.parse(rs.getString("data_criacao").replace(" ", "T")), null, null, null);
                 allTimes.add(t);
             }
 
@@ -68,7 +67,7 @@ public class TimeDao {
 
                 t = new Time(rs.getLong("id_time"), rs.getString("nome"), rs.getInt("num_vitoria"),
                         rs.getInt("num_empate"), rs.getInt("num_derrota"),
-                        LocalDateTime.parse(rs.getString("data_criacao").replace(" ", "T")), null, null, null, null);
+                        LocalDateTime.parse(rs.getString("data_criacao").replace(" ", "T")), null, null, null);
             }
             return t;
         } catch (SQLException e) {
@@ -93,7 +92,7 @@ public class TimeDao {
             if (rs.next()) {
                 t = new Time(rs.getLong("id_time"), rs.getString("nome_time"), rs.getInt("num_vitoria"),
                         rs.getInt("num_empate"), rs.getInt("num_derrota"),
-                        LocalDateTime.parse(rs.getString("data_criacao").replace(" ", "T")), null, null, null, null);
+                        LocalDateTime.parse(rs.getString("data_criacao").replace(" ", "T")), null, null, null);
             }
             return t;
         } catch (SQLException e) {

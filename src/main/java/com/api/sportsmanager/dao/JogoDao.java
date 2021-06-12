@@ -32,10 +32,9 @@ public class JogoDao {
 
             // How to take in DB
             while (rs.next()) {
-                CampeonatoDao dao = new CampeonatoDao();
 
                 Jogo j = new Jogo(rs.getLong("id_jogo"), rs.getInt("pontuacao_time_1"), rs.getInt("pontuacao_time_2"),
-                        null, dao.findById(rs.getLong("id_campeonato")));
+                        null);
 
                 allJogos.add(j);
             }
@@ -60,10 +59,7 @@ public class JogoDao {
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                CampeonatoDao dao = new CampeonatoDao();
-
-                j = new Jogo(rs.getLong("id_jogo"), rs.getInt("pontuacao_time_1"), rs.getInt("pontuacao_time_2"), null,
-                        dao.findById(rs.getLong("id_campeonato")));
+                j = new Jogo(rs.getLong("id_jogo"), rs.getInt("pontuacao_time_1"), rs.getInt("pontuacao_time_2"), null);
             }
         } catch (SQLException error) {
             error.printStackTrace();
@@ -76,13 +72,12 @@ public class JogoDao {
     public void postJogo(Jogo j) {
 
         this.conexao.abrirConexao();
-        String query = "INSERT INTO `jogos` VALUES(null,?,?,?)";
+        String query = "INSERT INTO `jogos` VALUES(null,?,?)";
         try {
             PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
 
             st.setInt(1, j.getPontuacaoTime1());
             st.setInt(1, j.getPontuacaoTime2());
-            st.setLong(3, j.getCampeonato().getIdCampeonato());
 
             st.executeUpdate();
         } catch (SQLException error) {
@@ -95,13 +90,12 @@ public class JogoDao {
     public void putJogo(Jogo j, long idEsporte) {
 
         this.conexao.abrirConexao();
-        String query = "UPDATE `jogos` SET pontuacao_time_1=?, pontuacao_time_2=?, id_campeonato=?  WHERE id_jogo=?";
+        String query = "UPDATE `jogos` SET pontuacao_time_1=?, pontuacao_time_2=? WHERE id_jogo=?";
         try {
             PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
 
             st.setInt(1, j.getPontuacaoTime1());
             st.setInt(1, j.getPontuacaoTime2());
-            st.setLong(3, j.getCampeonato().getIdCampeonato());
 
             st.executeUpdate();
         } catch (SQLException error) {
