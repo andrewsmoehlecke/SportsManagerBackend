@@ -140,7 +140,7 @@ public class TimeDao {
 
         Time t = null;
         try {
-            PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
+            PreparedStatement st = this.conexao.getConexao().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
             st.setString(1, time.getNomeTime());
             st.setInt(2, time.getNumVitoria());

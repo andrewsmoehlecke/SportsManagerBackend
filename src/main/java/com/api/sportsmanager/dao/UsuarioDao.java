@@ -162,12 +162,14 @@ public class UsuarioDao {
         return usuario;
     }
 
-    public void putUsuario(Usuario u, long idUsuario) {
+    public Usuario putUsuario(Usuario u, long idUsuario) {
 
         this.conexao.abrirConexao();
         String query = "UPDATE `usuarios` SET username=?, email=?, senha=?, foto_perfil=?, data_criacao=? WHERE id_usuario=?";
+
+        Usuario usuario = null;
         try {
-            PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
+            PreparedStatement st = this.conexao.getConexao().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
             st.setString(1, u.getUsername());
             st.setString(2, u.getEmail());
@@ -177,11 +179,18 @@ public class UsuarioDao {
             st.setLong(6, idUsuario);
 
             st.executeUpdate();
+
+            ResultSet rs = st.getGeneratedKeys();
+            if (rs.next()) {
+                usuario = this.findById(rs.getLong(1));
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             conexao.fecharConexao();
         }
+
+        return usuario;
     }
 
     public void delete(long id) {
