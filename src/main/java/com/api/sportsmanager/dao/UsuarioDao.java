@@ -108,13 +108,15 @@ public class UsuarioDao {
         this.conexao.abrirConexao();
 
         String query = "SELECT * FROM `usuarios` WHERE email=?";
+
+        Usuario u = null;
+
         // How to take in DB
         try {
             PreparedStatement ps = this.conexao.getConexao().prepareStatement(query);
             ps.setString(1, email);
             ResultSet rs = ps.executeQuery();
 
-            Usuario u = new Usuario();
             if (rs.next()) {
 
                 u = new Usuario(rs.getLong("id_usuario"), rs.getString("username"), rs.getString("email"),
@@ -122,13 +124,13 @@ public class UsuarioDao {
                         ConversaoDeData.timestampToLocalDateTime(rs.getTimestamp("data_criacao")),
                         rs.getString("foto_perfil"), null);
             }
-            return u;
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         } finally {
             conexao.fecharConexao();
         }
+        return u;
     }
 
     public Usuario postUsuario(Usuario u) {

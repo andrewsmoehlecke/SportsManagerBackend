@@ -51,13 +51,13 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> post(@RequestBody UsuarioDto dto) {
+    public ResponseEntity<UsuarioDto> post(@RequestBody UsuarioDto dto) {
         log.info("POST /usuario");
 
-        if (usuarioDao.findByUsername(dto.getUsername()).getUsername() != "") {
+        if (usuarioDao.findByUsername(dto.getUsername()) != null) {
             log.warn("Usuario with username " + dto.getUsername() + " already exist");
             return new ResponseEntity<>(HttpStatus.CONFLICT);
-        } else if (usuarioDao.findByEmail(dto.getEmail()).getEmail() != "") {
+        } else if (usuarioDao.findByEmail(dto.getEmail()) != null) {
             log.warn("Usuario with email " + dto.getEmail() + " already exist");
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         } else {
@@ -68,8 +68,12 @@ public class UsuarioController {
             u.setSenha(dto.getSenha());
             u.setFotoPerfil(dto.getFotoPerfil());
 
-            log.info("User " + dto.getUsername() + " created");
-            return new ResponseEntity<>(usuarioDao.postUsuario(u), HttpStatus.OK);
+            if (usuarioDao.postUsuario(u) != null) {
+                log.info("User " + dto.getUsername() + " created");
+                return new ResponseEntity<>(dto, HttpStatus.OK);
+            } else {
+                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
         }
     }
 
