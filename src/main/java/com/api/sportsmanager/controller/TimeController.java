@@ -48,7 +48,7 @@ public class TimeController {
                 Time t = timeDao.postTime(time);
 
                 TimeDto dto = new TimeDto(t.getIdTime(), t.getNomeTime(), t.getNumVitoria(), t.getNumEmpate(),
-                        t.getNumDerrota(), t.getDataCriacao());
+                        t.getNumDerrota(), t.getDataCriacao(), t.getFotoTime());
                 return new ResponseEntity<>(dto, HttpStatus.OK);
             }
         } catch (Exception e) {
@@ -68,7 +68,7 @@ public class TimeController {
 
         for (Time t : allTimes) {
             TimeDto dto = new TimeDto(t.getIdTime(), t.getNomeTime(), t.getNumVitoria(), t.getNumEmpate(),
-                    t.getNumDerrota(), t.getDataCriacao());
+                    t.getNumDerrota(), t.getDataCriacao(), t.getFotoTime());
 
             allTimesDto.add(dto);
         }
@@ -82,7 +82,7 @@ public class TimeController {
 
         Time t = timeDao.findById(id);
         TimeDto dto = new TimeDto(t.getIdTime(), t.getNomeTime(), t.getNumVitoria(), t.getNumEmpate(),
-                t.getNumDerrota(), t.getDataCriacao());
+                t.getNumDerrota(), t.getDataCriacao(), t.getFotoTime());
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
@@ -93,12 +93,12 @@ public class TimeController {
         log.info("PUT /time/" + idTime);
 
         Time time = new Time(t.getIdTime(), t.getNomeTime(), t.getNumVitoria(), t.getNumEmpate(), t.getNumDerrota(),
-                t.getDataCriacao(), null, null, null);
+                t.getDataCriacao(), null, null, null, t.getFotoTime());
 
         time = timeDao.putTime(time, idTime);
 
         TimeDto dto = new TimeDto(t.getIdTime(), t.getNomeTime(), t.getNumVitoria(), t.getNumEmpate(),
-                t.getNumDerrota(), t.getDataCriacao());
+                t.getNumDerrota(), t.getDataCriacao(), t.getFotoTime());
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }

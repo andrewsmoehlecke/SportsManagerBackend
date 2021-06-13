@@ -15,6 +15,7 @@ public class Time {
     private List<UsuarioTime> usuarioTime;
     private List<EsporteTime> esporteTime;
     private List<TimeJogo> timeJogo;
+    private String fotoTime;
 
     public Time() {
         this.idTime = 0;
@@ -26,10 +27,11 @@ public class Time {
         this.usuarioTime = new ArrayList<UsuarioTime>();
         this.esporteTime = new ArrayList<EsporteTime>();
         this.timeJogo = new ArrayList<TimeJogo>();
+        this.fotoTime = "";
     }
 
     public Time(long id_time, String nomeTime, int numVitoria, int numEmpate, int numDerrota, LocalDateTime dataCriacao,
-            List<UsuarioTime> usuarioTime, List<EsporteTime> esporteTime, List<TimeJogo> timeJogo) {
+            List<UsuarioTime> usuarioTime, List<EsporteTime> esporteTime, List<TimeJogo> timeJogo, String fotoTime) {
         this.idTime = id_time;
         this.nomeTime = nomeTime;
         this.numVitoria = numVitoria;
@@ -39,6 +41,15 @@ public class Time {
         this.usuarioTime = usuarioTime;
         this.esporteTime = esporteTime;
         this.timeJogo = timeJogo;
+        this.fotoTime = fotoTime;
+    }
+
+    public String getFotoTime() {
+        return fotoTime;
+    }
+
+    public void setFotoTime(String fotoTime) {
+        this.fotoTime = fotoTime;
     }
 
     public List<TimeJogo> getTimeJogo() {
@@ -115,9 +126,9 @@ public class Time {
 
     @Override
     public String toString() {
-        return "Time [dataCriacao=" + dataCriacao + ", esporteTime=" + esporteTime + ", idTime=" + idTime
-                + ", nomeTime=" + nomeTime + ", numDerrota=" + numDerrota + ", numEmpates=" + numEmpate
-                + ", numVitoria=" + numVitoria + ", timeJogo=" + timeJogo + ", usuarioTime=" + usuarioTime + "]";
+        return "Time [dataCriacao=" + dataCriacao + ", esporteTime=" + esporteTime + ", fotoTime=" + fotoTime
+                + ", idTime=" + idTime + ", nomeTime=" + nomeTime + ", numDerrota=" + numDerrota + ", numEmpate="
+                + numEmpate + ", numVitoria=" + numVitoria + ", timeJogo=" + timeJogo + ", usuarioTime=" + usuarioTime
+                + "]";
     }
-
 }

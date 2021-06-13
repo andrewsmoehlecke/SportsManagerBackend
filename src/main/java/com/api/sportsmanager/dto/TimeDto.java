@@ -9,6 +9,7 @@ public class TimeDto {
     private int numEmpate;
     private int numDerrota;
     private LocalDateTime dataCriacao;
+    private String fotoTime;
 
     public TimeDto() {
         this.idTime = 0;
@@ -17,16 +18,26 @@ public class TimeDto {
         this.numEmpate = 0;
         this.numDerrota = 0;
         this.dataCriacao = LocalDateTime.now();
+        this.setFotoTime("");
     }
 
     public TimeDto(long id_time, String nomeTime, int numVitoria, int numEmpate, int numDerrota,
-            LocalDateTime dataCriacao) {
+            LocalDateTime dataCriacao, String fotoTime) {
         this.idTime = id_time;
         this.nomeTime = nomeTime;
         this.numVitoria = numVitoria;
         this.numEmpate = numEmpate;
         this.numDerrota = numDerrota;
         this.dataCriacao = dataCriacao;
+        this.setFotoTime(fotoTime);
+    }
+
+    public String getFotoTime() {
+        return fotoTime;
+    }
+
+    public void setFotoTime(String fotoTime) {
+        this.fotoTime = fotoTime;
     }
 
     public String getNomeTime() {

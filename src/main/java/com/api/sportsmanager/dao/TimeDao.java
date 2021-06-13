@@ -39,7 +39,8 @@ public class TimeDao {
 
                 Time t = new Time(rs.getLong("id_time"), rs.getString("nome"), rs.getInt("num_vitoria"),
                         rs.getInt("num_empate"), rs.getInt("num_derrota"),
-                        LocalDateTime.parse(rs.getString("data_criacao").replace(" ", "T")), null, null, null);
+                        LocalDateTime.parse(rs.getString("data_criacao").replace(" ", "T")), null, null, null,
+                        rs.getString("foto_time"));
                 allTimes.add(t);
             }
 
@@ -67,7 +68,8 @@ public class TimeDao {
 
                 t = new Time(rs.getLong("id_time"), rs.getString("nome"), rs.getInt("num_vitoria"),
                         rs.getInt("num_empate"), rs.getInt("num_derrota"),
-                        LocalDateTime.parse(rs.getString("data_criacao").replace(" ", "T")), null, null, null);
+                        LocalDateTime.parse(rs.getString("data_criacao").replace(" ", "T")), null, null, null,
+                        rs.getString("foto_time"));
             }
             return t;
         } catch (SQLException e) {
@@ -92,7 +94,8 @@ public class TimeDao {
             if (rs.next()) {
                 t = new Time(rs.getLong("id_time"), rs.getString("nome_time"), rs.getInt("num_vitoria"),
                         rs.getInt("num_empate"), rs.getInt("num_derrota"),
-                        LocalDateTime.parse(rs.getString("data_criacao").replace(" ", "T")), null, null, null);
+                        LocalDateTime.parse(rs.getString("data_criacao").replace(" ", "T")), null, null, null,
+                        rs.getString("foto_time"));
             }
             return t;
         } catch (SQLException e) {
@@ -106,7 +109,7 @@ public class TimeDao {
     public Time postTime(Time time) {
 
         this.conexao.abrirConexao();
-        String query = "INSERT INTO `time` VALUES(null,?,?,?,?,?) ";
+        String query = "INSERT INTO `time` VALUES(null,?,?,?,?,?,?) ";
 
         Time t = null;
         try {
@@ -117,6 +120,7 @@ public class TimeDao {
             st.setInt(3, time.getNumEmpate());
             st.setInt(4, time.getNumDerrota());
             st.setTimestamp(5, ConversaoDeData.localDateTimeToTimestamp(time.getDataCriacao()));
+            st.setString(6, time.getFotoTime());
 
             st.executeUpdate();
 
@@ -135,7 +139,7 @@ public class TimeDao {
     public Time putTime(Time time, long idTime) {
 
         this.conexao.abrirConexao();
-        String query = "UPDATE `time` SET nome=?, num_vitoria=?, num_empate=?, num_derrota=?, data_criacao=? WHERE id_time=?";
+        String query = "UPDATE `time` SET nome=?, num_vitoria=?, num_empate=?, num_derrota=?, data_criacao=?, foto_time=? WHERE id_time=?";
 
         Time t = null;
         try {
@@ -147,6 +151,7 @@ public class TimeDao {
             st.setInt(4, time.getNumDerrota());
             st.setTimestamp(5, ConversaoDeData.localDateTimeToTimestamp(time.getDataCriacao()));
             st.setLong(6, idTime);
+            st.setString(6, time.getFotoTime());
 
             st.executeUpdate();
 
