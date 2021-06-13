@@ -53,7 +53,7 @@ public class TimeJogoDao {
     public TimeJogo findById(long id) {
         this.conexao.abrirConexao();
 
-        String query = "SELECT * FROM `time_jogos` WHERE id_time_jogo=?";
+        String query = "SELECT * FROM `time_jogos` WHERE id_time_jogos=?";
 
         TimeJogo tj = null;
         // How to take in DB

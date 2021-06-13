@@ -3,8 +3,12 @@ package com.api.sportsmanager.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.api.sportsmanager.dao.TimeDao;
 import com.api.sportsmanager.dao.TimeJogoDao;
+import com.api.sportsmanager.dto.TimeDto;
 import com.api.sportsmanager.dto.TimeJogoDto;
+import com.api.sportsmanager.dto.TimeJogoFullDto;
+import com.api.sportsmanager.entities.Time;
 import com.api.sportsmanager.entities.TimeJogo;
 
 import org.slf4j.Logger;
@@ -47,30 +51,59 @@ public class TimeJogoController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<TimeJogoDto>> getAll() {
+    public ResponseEntity<List<TimeJogoFullDto>> getAll() {
         log.info("GET /time_jogo");
 
         List<TimeJogo> allTimeJogo = timeJogoDao.findAll();
-        List<TimeJogoDto> allTimeJogoDto = new ArrayList<TimeJogoDto>();
+        List<TimeJogoFullDto> allTimeJogoFullDto = new ArrayList<TimeJogoFullDto>();
 
         for (TimeJogo tj : allTimeJogo) {
-            TimeJogoDto dto = new TimeJogoDto(tj.getIdTimeJogo(), tj.getLocal(), tj.getPontuacaoTime1(),
-                    tj.getPontuacaoTime2(), tj.getDataJogo(), tj.getTime1().getIdTime(), tj.getTime2().getIdTime(),
-                    tj.getTitulo());
+            Time t1 = tj.getTime1();
+            Time t2 = tj.getTime2();
 
-            allTimeJogoDto.add(dto);
+            TimeJogoFullDto dto = new TimeJogoFullDto();
+            TimeDto time1 = new TimeDto(t1.getIdTime(), t1.getNomeTime(), t1.getNumVitoria(), t1.getNumEmpate(),
+                    t1.getNumDerrota(), t1.getDataCriacao(), t1.getFotoTime());
+            TimeDto time2 = new TimeDto(t2.getIdTime(), t2.getNomeTime(), t2.getNumVitoria(), t2.getNumEmpate(),
+                    t2.getNumDerrota(), t2.getDataCriacao(), t2.getFotoTime());
+
+            dto.setIdTimeJogo(tj.getIdTimeJogo());
+            dto.setLocal(tj.getLocal());
+            dto.setPontuacaoTime1(tj.getPontuacaoTime1());
+            dto.setPontuacaoTime2(tj.getPontuacaoTime2());
+            dto.setDataJogo(tj.getDataJogo());
+            dto.setTime1(time1);
+            dto.setTime2(time2);
+            dto.setTitulo(tj.getTitulo());
+
+            allTimeJogoFullDto.add(dto);
         }
-        return new ResponseEntity<>(allTimeJogoDto, HttpStatus.OK);
+        return new ResponseEntity<>(allTimeJogoFullDto, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TimeJogoDto> getTimeJogoById(@PathVariable("id") long id) {
+    public ResponseEntity<TimeJogoFullDto> getTimeJogoById(@PathVariable("id") long id) {
         log.info("GET /time_jogo/" + id);
 
         TimeJogo tj = timeJogoDao.findById(id);
-        TimeJogoDto dto = new TimeJogoDto(tj.getIdTimeJogo(), tj.getLocal(), tj.getPontuacaoTime1(),
-                tj.getPontuacaoTime2(), tj.getDataJogo(), tj.getTime1().getIdTime(), tj.getTime2().getIdTime(),
-                tj.getTitulo());
+
+        Time t1 = tj.getTime1();
+        Time t2 = tj.getTime2();
+        TimeJogoFullDto dto = new TimeJogoFullDto();
+
+        TimeDto time1 = new TimeDto(t1.getIdTime(), t1.getNomeTime(), t1.getNumVitoria(), t1.getNumEmpate(),
+                t1.getNumDerrota(), t1.getDataCriacao(), t1.getFotoTime());
+        TimeDto time2 = new TimeDto(t2.getIdTime(), t2.getNomeTime(), t2.getNumVitoria(), t2.getNumEmpate(),
+                t2.getNumDerrota(), t2.getDataCriacao(), t2.getFotoTime());
+
+        dto.setIdTimeJogo(tj.getIdTimeJogo());
+        dto.setLocal(tj.getLocal());
+        dto.setPontuacaoTime1(tj.getPontuacaoTime1());
+        dto.setPontuacaoTime2(tj.getPontuacaoTime2());
+        dto.setDataJogo(tj.getDataJogo());
+        dto.setTime1(time1);
+        dto.setTime2(time2);
+        dto.setTitulo(tj.getTitulo());
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
