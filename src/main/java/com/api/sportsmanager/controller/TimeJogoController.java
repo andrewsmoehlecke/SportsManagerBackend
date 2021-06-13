@@ -40,7 +40,6 @@ public class TimeJogoController {
     public ResponseEntity<Void> post(@RequestBody TimeJogoFullDto dto) {
         log.info("POST /time_jogo");
 
-        log.info(dto.toString());
         try {
             timeJogoDao.postTimeJogo(dto);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -110,11 +109,14 @@ public class TimeJogoController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> put(@PathVariable("id") long id, @RequestBody TimeJogo tj) {
+    public ResponseEntity<TimeJogoFullDto> put(@PathVariable("id") long id, @RequestBody TimeJogoFullDto tj) {
         log.info("PUT /time_jogo/" + id);
 
-        timeJogoDao.putTimeJogo(tj, id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        if (timeJogoDao.putTimeJogo(tj, id)) {
+            return new ResponseEntity<>(tj, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @DeleteMapping("/{id}")

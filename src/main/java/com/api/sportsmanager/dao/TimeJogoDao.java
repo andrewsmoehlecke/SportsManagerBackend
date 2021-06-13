@@ -3,6 +3,7 @@ package com.api.sportsmanager.dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -103,12 +104,13 @@ public class TimeJogoDao {
         }
     }
 
-    public void putTimeJogo(TimeJogo tj, long idTimeJogo) {
+    public boolean putTimeJogo(TimeJogoFullDto tj, long idTimeJogo) {
 
         this.conexao.abrirConexao();
-        String query = "UPDATE `time_jogos` SET local=?, pontuacao_time_1=?, pontuacao_time_2=?, data_jogo=?, id_time_1=?, id_time_2=?, titulo=? WHERE id_time_jogo=?";
+        String query = "UPDATE `time_jogos` SET local=?, pontuacao_time_1=?, pontuacao_time_2=?, data_jogo=?, id_time_1=?, id_time_2=?, titulo=? WHERE id_time_jogos=?";
+
         try {
-            PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
+            PreparedStatement st = this.conexao.getConexao().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
             st.setString(1, tj.getLocal());
             st.setInt(2, tj.getPontuacaoTime1());
@@ -117,10 +119,14 @@ public class TimeJogoDao {
             st.setLong(5, tj.getTime1().getIdTime());
             st.setLong(6, tj.getTime2().getIdTime());
             st.setString(7, tj.getTitulo());
+            st.setLong(8, tj.getIdTimeJogo());
 
             st.executeUpdate();
+
+            return true;
         } catch (SQLException error) {
             error.printStackTrace();
+            return false;
         } finally {
             conexao.fecharConexao();
         }
@@ -128,7 +134,7 @@ public class TimeJogoDao {
 
     public void delete(long id) {
         this.conexao.abrirConexao();
-        String query = "DELETE FROM `time_jogos` WHERE id_time_jogo=?";
+        String query = "DELETE FROM `time_jogos` WHERE id_time_jogos=?";
         try {
             PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
             st.setLong(1, id);
