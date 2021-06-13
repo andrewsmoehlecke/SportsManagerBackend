@@ -37,14 +37,15 @@ public class TimeJogoController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> post(@RequestBody TimeJogo tj) {
+    public ResponseEntity<Void> post(@RequestBody TimeJogoFullDto dto) {
         log.info("POST /time_jogo");
 
+        log.info(dto.toString());
         try {
-            timeJogoDao.postTimeJogo(tj);
+            timeJogoDao.postTimeJogo(dto);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
-            log.error("Can´t post TimeJogo with date " + tj.getDataJogo());
+            log.error("Can´t post TimeJogo with date " + dto.getDataJogo());
             log.error("ERROR " + e);
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

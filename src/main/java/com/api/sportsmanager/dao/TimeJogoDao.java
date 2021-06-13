@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.api.sportsmanager.dto.TimeJogoFullDto;
 import com.api.sportsmanager.entities.TimeJogo;
 import com.api.sportsmanager.persistencia.ConexaoMysql;
 import com.api.sportsmanager.util.ConversaoDeData;
@@ -79,7 +80,7 @@ public class TimeJogoDao {
         return tj;
     }
 
-    public void postTimeJogo(TimeJogo tj) {
+    public void postTimeJogo(TimeJogoFullDto tj) {
 
         this.conexao.abrirConexao();
         String query = "INSERT INTO `time_jogos` VALUES(null,?,?,?,?,?,?,?)";
