@@ -3,6 +3,7 @@ package com.api.sportsmanager.dto;
 import java.time.LocalDateTime;
 
 public class TimeJogoDto {
+
     private long idTimeJogo;
     private String local;
     private int pontuacaoTime1;
@@ -10,6 +11,7 @@ public class TimeJogoDto {
     private LocalDateTime dataJogo;
     private long time1;
     private long time2;
+    private String titulo;
 
     public TimeJogoDto() {
         this.idTimeJogo = 0;
@@ -17,12 +19,13 @@ public class TimeJogoDto {
         this.pontuacaoTime1 = 0;
         this.pontuacaoTime2 = 0;
         this.dataJogo = LocalDateTime.now();
-        this.time1 = 0;
-        this.time2 = 0;
+        this.setTime1(0);
+        this.setTime2(0);
+        this.titulo = "";
     }
 
     public TimeJogoDto(long idTimeJogo, String local, int pontuacaoTime1, int pontuacaoTime2, LocalDateTime dataJogo,
-            long time1, long time2) {
+            long time1, long time2, String titulo) {
         this.idTimeJogo = idTimeJogo;
         this.local = local;
         this.pontuacaoTime1 = pontuacaoTime1;
@@ -30,22 +33,15 @@ public class TimeJogoDto {
         this.dataJogo = dataJogo;
         this.time1 = time1;
         this.time2 = time2;
+        this.titulo = titulo;
     }
 
-    public long getTime1() {
-        return time1;
+    public String getTitulo() {
+        return titulo;
     }
 
-    public void setTime1(long time1) {
-        this.time1 = time1;
-    }
-
-    public long getTime2() {
-        return time2;
-    }
-
-    public void setTime2(long time2) {
-        this.time2 = time2;
+    public void setTitulo(String titulo) {
+        this.titulo = titulo;
     }
 
     public long getIdTimeJogo() {
@@ -88,11 +84,19 @@ public class TimeJogoDto {
         this.dataJogo = dataJogo;
     }
 
-    @Override
-    public String toString() {
-        return "TimeJogoDto [dataJogo=" + dataJogo + ", idTimeJogo=" + idTimeJogo + ", local=" + local
-                + ", pontuacaoTime1=" + pontuacaoTime1 + ", pontuacaoTime2=" + pontuacaoTime2 + ", time1=" + time1
-                + ", time2=" + time2 + "]";
+    public long getTime1() {
+        return time1;
     }
 
+    public void setTime1(long time1) {
+        this.time1 = time1;
+    }
+
+    public long getTime2() {
+        return time2;
+    }
+
+    public void setTime2(long time2) {
+        this.time2 = time2;
+    }
 }

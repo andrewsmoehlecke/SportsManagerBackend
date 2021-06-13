@@ -23,10 +23,8 @@ public class TimeJogoDao {
     public List<TimeJogo> findAll() {
         this.conexao.abrirConexao();
         String query = "SELECT * FROM `time_jogos`";
+        List<TimeJogo> allTimeJogo = new ArrayList<TimeJogo>();
         try {
-            // List to return results
-            List<TimeJogo> allTimeJogo = new ArrayList<TimeJogo>();
-
             PreparedStatement ps = this.conexao.getConexao().prepareStatement(query);
             ResultSet rs = ps.executeQuery();
 
@@ -37,18 +35,19 @@ public class TimeJogoDao {
                 TimeJogo tj = new TimeJogo(rs.getLong("id_time_jogos"), rs.getString("local"),
                         rs.getInt("pontuacao_time_1"), rs.getInt("pontuacao_time_2"),
                         ConversaoDeData.timestampToLocalDateTime(rs.getTimestamp("data_jogo")),
-                        timeDao.findById(rs.getLong("id_time_1")), timeDao.findById(rs.getLong("id_time_2")));
+                        timeDao.findById(rs.getLong("id_time_1")), timeDao.findById(rs.getLong("id_time_2")),
+                        rs.getString("titulo"));
 
                 allTimeJogo.add(tj);
             }
 
-            return allTimeJogo;
         } catch (SQLException error) {
             error.printStackTrace();
             return null;
         } finally {
             conexao.fecharConexao();
         }
+        return allTimeJogo;
     }
 
     public TimeJogo findById(long id) {
@@ -69,7 +68,8 @@ public class TimeJogoDao {
                 tj = new TimeJogo(rs.getLong("id_time_jogos"), rs.getString("local"), rs.getInt("pontuacao_time_1"),
                         rs.getInt("pontuacao_time_2"),
                         ConversaoDeData.timestampToLocalDateTime(rs.getTimestamp("data_jogo")),
-                        timeDao.findById(rs.getLong("id_time_1")), timeDao.findById(rs.getLong("id_time_2")));
+                        timeDao.findById(rs.getLong("id_time_1")), timeDao.findById(rs.getLong("id_time_2")),
+                        rs.getString("titulo"));
             }
         } catch (SQLException error) {
             error.printStackTrace();
@@ -82,7 +82,7 @@ public class TimeJogoDao {
     public void postTimeJogo(TimeJogo tj) {
 
         this.conexao.abrirConexao();
-        String query = "INSERT INTO `time_jogos` VALUES(null,?,?,?,?,?,?)";
+        String query = "INSERT INTO `time_jogos` VALUES(null,?,?,?,?,?,?,?)";
         try {
             PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
 
@@ -92,6 +92,7 @@ public class TimeJogoDao {
             st.setTimestamp(4, ConversaoDeData.localDateTimeToTimestamp(tj.getDataJogo()));
             st.setLong(5, tj.getTime1().getIdTime());
             st.setLong(6, tj.getTime2().getIdTime());
+            st.setString(7, tj.getTitulo());
 
             st.executeUpdate();
         } catch (SQLException error) {
@@ -104,7 +105,7 @@ public class TimeJogoDao {
     public void putTimeJogo(TimeJogo tj, long idTimeJogo) {
 
         this.conexao.abrirConexao();
-        String query = "UPDATE `time_jogos` SET local=?, pontuacao_time_1=?, pontuacao_time_2=?, data_jogo=?, id_time_1=?, id_time_2=?  WHERE id_time_jogo=?";
+        String query = "UPDATE `time_jogos` SET local=?, pontuacao_time_1=?, pontuacao_time_2=?, data_jogo=?, id_time_1=?, id_time_2=?, titulo=? WHERE id_time_jogo=?";
         try {
             PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
 
@@ -114,6 +115,7 @@ public class TimeJogoDao {
             st.setTimestamp(4, ConversaoDeData.localDateTimeToTimestamp(tj.getDataJogo()));
             st.setLong(5, tj.getTime1().getIdTime());
             st.setLong(6, tj.getTime2().getIdTime());
+            st.setString(7, tj.getTitulo());
 
             st.executeUpdate();
         } catch (SQLException error) {
