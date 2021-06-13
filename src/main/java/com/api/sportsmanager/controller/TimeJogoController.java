@@ -59,7 +59,6 @@ public class TimeJogoController {
                     tj.getTitulo());
 
             allTimeJogoDto.add(dto);
-            log.info(dto.toString());
         }
         return new ResponseEntity<>(allTimeJogoDto, HttpStatus.OK);
     }
