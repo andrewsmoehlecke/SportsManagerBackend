@@ -65,9 +65,8 @@ public class TimeController {
 
         List<Time> allTimes = timeDao.findAll();
         List<TimeDto> allTimesDto = new ArrayList<TimeDto>();
-        log.info(allTimes.size() + "");
+
         for (Time t : allTimes) {
-            log.info(t.toString());
             TimeDto dto = new TimeDto(t.getIdTime(), t.getNomeTime(), t.getNumVitoria(), t.getNumEmpate(),
                     t.getNumDerrota(), t.getDataCriacao(), t.getFotoTime());
 
