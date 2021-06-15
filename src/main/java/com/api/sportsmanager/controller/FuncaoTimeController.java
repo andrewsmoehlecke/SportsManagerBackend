@@ -33,14 +33,12 @@ public class FuncaoTimeController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> post(@RequestBody FuncaoTime ft) {
+    public ResponseEntity<FuncaoTimeDto> post(@RequestBody FuncaoTimeDto ft) {
         log.info("POST /funcao_time");
 
         try {
-
             funcaoTimeDao.postFuncaoTime(ft);
-            return new ResponseEntity<>(HttpStatus.OK);
-
+            return new ResponseEntity<>(ft, HttpStatus.OK);
         } catch (Exception e) {
             log.error("Can´t post FuncaoTime");
             log.error("ERROR " + e);
@@ -56,7 +54,7 @@ public class FuncaoTimeController {
         List<FuncaoTimeDto> allFuncaoTimeDto = new ArrayList<FuncaoTimeDto>();
 
         for (FuncaoTime ft : allFuncaoTime) {
-            FuncaoTimeDto dto = new FuncaoTimeDto(ft.getIdFuncaoTime(), ft.getNome(), ft.getEsporte().getIdEsporte());
+            FuncaoTimeDto dto = new FuncaoTimeDto(ft.getIdFuncaoTime(), ft.getNome());
 
             allFuncaoTimeDto.add(dto);
         }
@@ -68,13 +66,13 @@ public class FuncaoTimeController {
         log.info("GET /funcao_time/" + id);
 
         FuncaoTime ft = funcaoTimeDao.findById(id);
-        FuncaoTimeDto dto = new FuncaoTimeDto(ft.getIdFuncaoTime(), ft.getNome(), ft.getEsporte().getIdEsporte());
+        FuncaoTimeDto dto = new FuncaoTimeDto(ft.getIdFuncaoTime(), ft.getNome());
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> put(@PathVariable("id") long id, @RequestBody FuncaoTime ft) {
+    public ResponseEntity<Void> put(@PathVariable("id") long id, @RequestBody FuncaoTimeDto ft) {
         log.info("PUT /funcao_time/" + id);
 
         funcaoTimeDao.putFuncaoTime(ft, id);

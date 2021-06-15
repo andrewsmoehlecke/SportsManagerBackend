@@ -153,10 +153,10 @@ public class UsuarioTimeDao {
             PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
 
             st.setTimestamp(1, ConversaoDeData.localDateTimeToTimestamp(LocalDateTime.now()));
-            st.setLong(2, ut.getUsuario().getIdUsuario());
-            st.setLong(3, ut.getTime().getIdTime());
-            st.setString(4, ut.getCargo());
-            st.setLong(5, ut.getFuncaoTime().getIdFuncaoTime());
+            st.setString(2, ut.getCargo());
+            st.setLong(3, ut.getFuncaoTime().getIdFuncaoTime());
+            st.setLong(4, ut.getUsuario().getIdUsuario());
+            st.setLong(5, ut.getTime().getIdTime());
 
             st.executeUpdate();
         } catch (SQLException error) {
