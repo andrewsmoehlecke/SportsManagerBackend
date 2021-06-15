@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.api.sportsmanager.dao.UsuarioTimeDao;
 import com.api.sportsmanager.dto.UsuarioTimeDto;
+import com.api.sportsmanager.dto.UsuarioTimeFullDto;
 import com.api.sportsmanager.entities.UsuarioTime;
 
 import org.slf4j.Logger;
@@ -34,7 +35,7 @@ public class UsuarioTimeController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> post(@RequestBody UsuarioTime ut) {
+    public ResponseEntity<Void> post(@RequestBody UsuarioTimeFullDto ut) {
         log.info("POST /usuario_time");
 
         try {

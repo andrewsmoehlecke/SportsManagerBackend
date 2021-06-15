@@ -3,9 +3,11 @@ package com.api.sportsmanager.dao;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.api.sportsmanager.dto.UsuarioTimeFullDto;
 import com.api.sportsmanager.entities.UsuarioTime;
 import com.api.sportsmanager.persistencia.ConexaoMysql;
 import com.api.sportsmanager.util.ConversaoDeData;
@@ -143,14 +145,14 @@ public class UsuarioTimeDao {
         return ut;
     }
 
-    public void postUsuarioTime(UsuarioTime ut) {
+    public void postUsuarioTime(UsuarioTimeFullDto ut) {
 
         this.conexao.abrirConexao();
         String query = "INSERT INTO `usuario_time` VALUES(null,?,?,?,?,?)";
         try {
             PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
 
-            st.setTimestamp(1, ConversaoDeData.localDateTimeToTimestamp(ut.getDataEntrada()));
+            st.setTimestamp(1, ConversaoDeData.localDateTimeToTimestamp(LocalDateTime.now()));
             st.setLong(2, ut.getUsuario().getIdUsuario());
             st.setLong(3, ut.getTime().getIdTime());
             st.setString(4, ut.getCargo());
