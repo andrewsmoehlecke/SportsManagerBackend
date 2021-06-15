@@ -106,7 +106,6 @@ public class UsuarioController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    // atualizar Usuario pelo id
     @PutMapping("/{id}")
     public ResponseEntity<UsuarioDto> put(@PathVariable("id") long id, @RequestBody UsuarioDto dto) {
         log.info("PUT /usuario/" + id);

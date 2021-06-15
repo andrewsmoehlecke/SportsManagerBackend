@@ -55,40 +55,41 @@ public class UsuarioTimeDao {
         }
     }
 
-    public UsuarioTime findById(long id) {
+    public List<UsuarioTime> findByIdTime(long id) {
         this.conexao.abrirConexao();
 
-        String query = "SELECT * FROM `usuario_time` WHERE id_usuario_time=?";
+        String query = "SELECT * FROM `usuario_time` WHERE id_time=?";
 
-        UsuarioTime ut = null;
-        // How to take in DB
+        List<UsuarioTime> allTimes = new ArrayList<UsuarioTime>();
         try {
             PreparedStatement ps = this.conexao.getConexao().prepareStatement(query);
             ps.setLong(1, id);
             ResultSet rs = ps.executeQuery();
 
-            if (rs.next()) {
+            while (rs.next()) {
                 FuncaoTimeDao funcaoTimeDao = new FuncaoTimeDao();
                 UsuarioDao usuarioDao = new UsuarioDao();
                 TimeDao timeDao = new TimeDao();
 
-                ut = new UsuarioTime(rs.getLong("id_usuario_time"),
+                UsuarioTime ut = new UsuarioTime(rs.getLong("id_usuario_time"),
                         ConversaoDeData.timestampToLocalDateTime(rs.getTimestamp("data_entrada")),
                         usuarioDao.findById(rs.getLong("id_usuario")), timeDao.findById(rs.getLong("id_time")),
                         rs.getString("cargo"), funcaoTimeDao.findById(rs.getLong("id_funcao_time")));
+
+                allTimes.add(ut);
             }
         } catch (SQLException error) {
             error.printStackTrace();
         } finally {
             conexao.fecharConexao();
         }
-        return ut;
+        return allTimes;
     }
 
-    public UsuarioTime findByIdTime(long id) {
+    public UsuarioTime findById(long id) {
         this.conexao.abrirConexao();
 
-        String query = "SELECT * FROM `usuario_time` WHERE id_time=?";
+        String query = "SELECT * FROM `usuario_time` WHERE id_usuario_time=?";
 
         UsuarioTime ut = null;
         // How to take in DB

@@ -4,8 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.api.sportsmanager.dao.UsuarioTimeDao;
+import com.api.sportsmanager.dto.FuncaoTimeDto;
+import com.api.sportsmanager.dto.TimeDto;
+import com.api.sportsmanager.dto.UsuarioDto;
 import com.api.sportsmanager.dto.UsuarioTimeDto;
 import com.api.sportsmanager.dto.UsuarioTimeFullDto;
+import com.api.sportsmanager.entities.FuncaoTime;
+import com.api.sportsmanager.entities.Time;
+import com.api.sportsmanager.entities.Usuario;
 import com.api.sportsmanager.entities.UsuarioTime;
 
 import org.slf4j.Logger;
@@ -73,6 +79,53 @@ public class UsuarioTimeController {
                 ut.getUsuario().getIdUsuario(), ut.getTime().getIdTime(), ut.getFuncaoTime().getIdFuncaoTime());
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
+    @GetMapping("/time/{id}")
+    public ResponseEntity<List<UsuarioTimeFullDto>> getUsuarioTimeByIdTime(@PathVariable("id") long id) {
+        log.info("GET /usuario_time/time/" + id);
+
+        List<UsuarioTime> utList = usuarioTimeDao.findByIdTime(id);
+        List<UsuarioTimeFullDto> listDto = new ArrayList<UsuarioTimeFullDto>();
+
+        for (UsuarioTime ut : utList) {
+            UsuarioTimeFullDto dto = new UsuarioTimeFullDto();
+            Usuario u = ut.getUsuario();
+            Time t = ut.getTime();
+            FuncaoTime ft = new FuncaoTime();
+
+            UsuarioDto usuarioDto = new UsuarioDto();
+            usuarioDto.setIdUsuario(u.getIdUsuario());
+            usuarioDto.setUsername(u.getUsername());
+            usuarioDto.setEmail(u.getEmail());
+            usuarioDto.setSenha(u.getSenha());
+            usuarioDto.setDataCriacao(u.getDataCriacao());
+            usuarioDto.setFotoPerfil(u.getFotoPerfil());
+
+            TimeDto timeDto = new TimeDto();
+            timeDto.setIdTime(t.getIdTime());
+            timeDto.setNomeTime(t.getNomeTime());
+            timeDto.setNumVitoria(t.getNumVitoria());
+            timeDto.setNumEmpate(t.getNumEmpate());
+            timeDto.setNumDerrota(t.getNumDerrota());
+            timeDto.setDataCriacao(t.getDataCriacao());
+            timeDto.setFotoTime(t.getFotoTime());
+
+            FuncaoTimeDto ftDto = new FuncaoTimeDto();
+            ftDto.setIdFuncaoTime(ft.getIdFuncaoTime());
+            ftDto.setNome(ft.getNome());
+
+            dto.setIdUsuarioTime(ut.getIdUsuarioTime());
+            dto.setDataEntrada(ut.getDataEntrada());
+            dto.setCargo(ut.getCargo());
+            dto.setUsuario(usuarioDto);
+            dto.setTime(timeDto);
+            dto.setFuncaoTime(ftDto);
+
+            listDto.add(dto);
+        }
+
+        return new ResponseEntity<>(listDto, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
