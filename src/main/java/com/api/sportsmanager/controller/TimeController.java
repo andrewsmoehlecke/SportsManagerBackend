@@ -36,11 +36,10 @@ public class TimeController {
 
     // Criar novo time
     @PostMapping
-    public ResponseEntity<TimeDto> post(@RequestBody Time time) {
+    public ResponseEntity<TimeDto> post(@RequestBody TimeDto time) {
         log.info("Post /time");
 
         try {
-            // verify if time already exist
             if (timeDao.findByNomeTime(time.getNomeTime()) != null) {
                 log.warn("Time with name " + time.getNomeTime() + " already exist");
                 return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -49,6 +48,7 @@ public class TimeController {
 
                 TimeDto dto = new TimeDto(t.getIdTime(), t.getNomeTime(), t.getNumVitoria(), t.getNumEmpate(),
                         t.getNumDerrota(), t.getDataCriacao(), t.getFotoTime());
+
                 return new ResponseEntity<>(dto, HttpStatus.OK);
             }
         } catch (Exception e) {

@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.api.sportsmanager.dto.TimeDto;
 import com.api.sportsmanager.entities.Time;
 import com.api.sportsmanager.persistencia.ConexaoMysql;
 import com.api.sportsmanager.util.ConversaoDeData;
@@ -106,10 +107,10 @@ public class TimeDao {
         }
     }
 
-    public Time postTime(Time time) {
+    public Time postTime(TimeDto time) {
 
         this.conexao.abrirConexao();
-        String query = "INSERT INTO `time` VALUES(null,?,?,?,?,?,?) ";
+        String query = "INSERT INTO `time` VALUES(null,?,?,?,?,?,?)";
 
         Time t = null;
         try {
@@ -119,7 +120,7 @@ public class TimeDao {
             st.setInt(2, time.getNumVitoria());
             st.setInt(3, time.getNumEmpate());
             st.setInt(4, time.getNumDerrota());
-            st.setTimestamp(5, ConversaoDeData.localDateTimeToTimestamp(time.getDataCriacao()));
+            st.setTimestamp(5, ConversaoDeData.localDateTimeToTimestamp(LocalDateTime.now()));
             st.setString(6, time.getFotoTime());
 
             st.executeUpdate();

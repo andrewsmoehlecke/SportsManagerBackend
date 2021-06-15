@@ -87,4 +87,11 @@ public class TimeDto {
     public void setDataCriacao(LocalDateTime dataCriacao) {
         this.dataCriacao = dataCriacao;
     }
+
+    @Override
+    public String toString() {
+        return "TimeDto [dataCriacao=" + dataCriacao + ", fotoTime=" + fotoTime + ", idTime=" + idTime + ", nomeTime="
+                + nomeTime + ", numDerrota=" + numDerrota + ", numEmpate=" + numEmpate + ", numVitoria=" + numVitoria
+                + "]";
+    }
 }
