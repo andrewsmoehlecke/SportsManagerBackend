@@ -29,4 +29,9 @@ public class FuncaoTimeDto {
     public void setNome(String nome) {
         this.nome = nome;
     }
+
+    @Override
+    public String toString() {
+        return "FuncaoTimeDto [idFuncaoTime=" + idFuncaoTime + ", nome=" + nome + "]";
+    }
 }

@@ -92,7 +92,7 @@ public class UsuarioTimeController {
             UsuarioTimeFullDto dto = new UsuarioTimeFullDto();
             Usuario u = ut.getUsuario();
             Time t = ut.getTime();
-            FuncaoTime ft = new FuncaoTime();
+            FuncaoTime ft = ut.getFuncaoTime();
 
             UsuarioDto usuarioDto = new UsuarioDto();
             usuarioDto.setIdUsuario(u.getIdUsuario());
