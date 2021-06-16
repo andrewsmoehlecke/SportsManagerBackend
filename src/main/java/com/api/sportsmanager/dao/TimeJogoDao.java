@@ -83,8 +83,6 @@ public class TimeJogoDao {
 
     public void postTimeJogo(TimeJogoFullDto tj) {
 
-        log.info(tj.toString());
-
         this.conexao.abrirConexao();
         String query = "INSERT INTO `time_jogos` VALUES(null,?,?,?,?,?,?)";
         try {
