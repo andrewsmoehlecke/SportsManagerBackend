@@ -23,7 +23,7 @@ public class TimeJogoFullDto {
     }
 
     public TimeJogoFullDto(long idTimeJogo, String local, int pontuacaoTime1, int pontuacaoTime2,
-            LocalDateTime dataJogo, TimeDto time1, TimeDto time2, String titulo) {
+            LocalDateTime dataJogo, TimeDto time1, TimeDto time2) {
         this.idTimeJogo = idTimeJogo;
         this.local = local;
         this.pontuacaoTime1 = pontuacaoTime1;

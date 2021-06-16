@@ -11,7 +11,6 @@ public class TimeJogoDto {
     private LocalDateTime dataJogo;
     private long time1;
     private long time2;
-    private String titulo;
 
     public TimeJogoDto() {
         this.idTimeJogo = 0;
@@ -21,11 +20,10 @@ public class TimeJogoDto {
         this.dataJogo = LocalDateTime.now();
         this.setTime1(0);
         this.setTime2(0);
-        this.titulo = "";
     }
 
     public TimeJogoDto(long idTimeJogo, String local, int pontuacaoTime1, int pontuacaoTime2, LocalDateTime dataJogo,
-            long time1, long time2, String titulo) {
+            long time1, long time2) {
         this.idTimeJogo = idTimeJogo;
         this.local = local;
         this.pontuacaoTime1 = pontuacaoTime1;
@@ -33,15 +31,6 @@ public class TimeJogoDto {
         this.dataJogo = dataJogo;
         this.time1 = time1;
         this.time2 = time2;
-        this.titulo = titulo;
-    }
-
-    public String getTitulo() {
-        return titulo;
-    }
-
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
     }
 
     public long getIdTimeJogo() {

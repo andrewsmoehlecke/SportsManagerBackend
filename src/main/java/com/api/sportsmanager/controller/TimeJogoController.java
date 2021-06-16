@@ -58,7 +58,6 @@ public class TimeJogoController {
         List<TimeJogoFullDto> allTimeJogoFullDto = new ArrayList<TimeJogoFullDto>();
 
         for (TimeJogo tj : allTimeJogo) {
-            log.info(tj.toString());
             Time t1 = tj.getTime1();
             Time t2 = tj.getTime2();
 
