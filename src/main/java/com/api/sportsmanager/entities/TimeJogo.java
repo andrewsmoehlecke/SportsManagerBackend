@@ -22,7 +22,7 @@ public class TimeJogo {
     }
 
     public TimeJogo(long idTimeJogo, String local, int pontuacaoTime1, int pontuacaoTime2, LocalDateTime dataJogo,
-            Time time1, Time time2, String titulo) {
+            Time time1, Time time2) {
         this.idTimeJogo = idTimeJogo;
         this.local = local;
         this.pontuacaoTime1 = pontuacaoTime1;

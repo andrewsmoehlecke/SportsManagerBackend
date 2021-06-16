@@ -37,8 +37,7 @@ public class TimeJogoDao {
                 TimeJogo tj = new TimeJogo(rs.getLong("id_time_jogos"), rs.getString("local"),
                         rs.getInt("pontuacao_time_1"), rs.getInt("pontuacao_time_2"),
                         ConversaoDeData.timestampToLocalDateTime(rs.getTimestamp("data_jogo")),
-                        timeDao.findById(rs.getLong("id_time_1")), timeDao.findById(rs.getLong("id_time_2")),
-                        rs.getString("titulo"));
+                        timeDao.findById(rs.getLong("id_time_1")), timeDao.findById(rs.getLong("id_time_2")));
 
                 allTimeJogo.add(tj);
             }
@@ -70,8 +69,7 @@ public class TimeJogoDao {
                 tj = new TimeJogo(rs.getLong("id_time_jogos"), rs.getString("local"), rs.getInt("pontuacao_time_1"),
                         rs.getInt("pontuacao_time_2"),
                         ConversaoDeData.timestampToLocalDateTime(rs.getTimestamp("data_jogo")),
-                        timeDao.findById(rs.getLong("id_time_1")), timeDao.findById(rs.getLong("id_time_2")),
-                        rs.getString("titulo"));
+                        timeDao.findById(rs.getLong("id_time_1")), timeDao.findById(rs.getLong("id_time_2")));
             }
         } catch (SQLException error) {
             error.printStackTrace();
