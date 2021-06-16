@@ -138,7 +138,6 @@ public class TimeDao {
     }
 
     public Time putTime(Time time, long idTime) {
-        log.info(time.getNumVitoria() + "");
 
         this.conexao.abrirConexao();
         String query = "UPDATE `time` SET nome=?, num_vitoria=?, num_empate=?, num_derrota=?, data_criacao=?, foto_time=? WHERE id_time=?";
