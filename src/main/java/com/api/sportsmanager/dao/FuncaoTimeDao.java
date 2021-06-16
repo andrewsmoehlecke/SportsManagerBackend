@@ -98,7 +98,7 @@ public class FuncaoTimeDao {
             PreparedStatement st = this.conexao.getConexao().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 
             st.setString(1, ft.getNome());
-
+            st.setLong(2, idFuncaoTime);
             st.executeUpdate();
 
             ResultSet rs = st.getGeneratedKeys();

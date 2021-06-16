@@ -72,7 +72,7 @@ public class FuncaoTimeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> put(@PathVariable("id") long id, @RequestBody FuncaoTimeDto ft) {
+    public ResponseEntity<FuncaoTimeDto> put(@PathVariable("id") long id, @RequestBody FuncaoTimeDto ft) {
         log.info("PUT /funcao_time/" + id);
 
         funcaoTimeDao.putFuncaoTime(ft, id);
