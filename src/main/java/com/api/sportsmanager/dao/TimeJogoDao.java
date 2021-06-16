@@ -94,7 +94,6 @@ public class TimeJogoDao {
             st.setTimestamp(4, ConversaoDeData.localDateTimeToTimestamp(tj.getDataJogo()));
             st.setLong(5, tj.getTime1().getIdTime());
             st.setLong(6, tj.getTime2().getIdTime());
-            st.setString(7, tj.getTitulo());
 
             st.executeUpdate();
         } catch (SQLException error) {
@@ -107,7 +106,7 @@ public class TimeJogoDao {
     public boolean putTimeJogo(TimeJogoFullDto tj, long idTimeJogo) {
 
         this.conexao.abrirConexao();
-        String query = "UPDATE `time_jogos` SET local=?, pontuacao_time_1=?, pontuacao_time_2=?, data_jogo=?, id_time_1=?, id_time_2=?, titulo=? WHERE id_time_jogos=?";
+        String query = "UPDATE `time_jogos` SET local=?, pontuacao_time_1=?, pontuacao_time_2=?, data_jogo=?, id_time_1=?, id_time_2=? WHERE id_time_jogos=?";
 
         try {
             PreparedStatement st = this.conexao.getConexao().prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -118,8 +117,7 @@ public class TimeJogoDao {
             st.setTimestamp(4, ConversaoDeData.localDateTimeToTimestamp(tj.getDataJogo()));
             st.setLong(5, tj.getTime1().getIdTime());
             st.setLong(6, tj.getTime2().getIdTime());
-            st.setString(7, tj.getTitulo());
-            st.setLong(8, tj.getIdTimeJogo());
+            st.setLong(7, tj.getIdTimeJogo());
 
             st.executeUpdate();
 

@@ -74,7 +74,6 @@ public class TimeJogoController {
             dto.setDataJogo(tj.getDataJogo());
             dto.setTime1(time1);
             dto.setTime2(time2);
-            dto.setTitulo(tj.getTitulo());
 
             allTimeJogoFullDto.add(dto);
         }
@@ -103,7 +102,6 @@ public class TimeJogoController {
         dto.setDataJogo(tj.getDataJogo());
         dto.setTime1(time1);
         dto.setTime2(time2);
-        dto.setTitulo(tj.getTitulo());
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }

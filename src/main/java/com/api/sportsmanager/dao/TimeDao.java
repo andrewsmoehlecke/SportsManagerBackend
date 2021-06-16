@@ -138,6 +138,7 @@ public class TimeDao {
     }
 
     public Time putTime(Time time, long idTime) {
+        log.info(time.getNumVitoria() + "");
 
         this.conexao.abrirConexao();
         String query = "UPDATE `time` SET nome=?, num_vitoria=?, num_empate=?, num_derrota=?, data_criacao=?, foto_time=? WHERE id_time=?";
@@ -151,8 +152,8 @@ public class TimeDao {
             st.setInt(3, time.getNumEmpate());
             st.setInt(4, time.getNumDerrota());
             st.setTimestamp(5, ConversaoDeData.localDateTimeToTimestamp(time.getDataCriacao()));
-            st.setLong(6, idTime);
             st.setString(6, time.getFotoTime());
+            st.setLong(7, idTime);
 
             st.executeUpdate();
 
