@@ -82,7 +82,7 @@ public class TimeJogoDao {
     public void postTimeJogo(TimeJogoFullDto tj) {
 
         this.conexao.abrirConexao();
-        String query = "INSERT INTO `time_jogos` VALUES(null,?,?,?,?,?,?,?)";
+        String query = "INSERT INTO `time_jogos` VALUES(null,?,?,?,?,?,?)";
         try {
             PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
 
