@@ -167,18 +167,19 @@ public class UsuarioTimeDao {
         }
     }
 
-    public void putUsuarioTime(UsuarioTime ut, long idUsuarioTime) {
+    public void putUsuarioTime(UsuarioTimeFullDto ut, long idUsuarioTime) {
 
         this.conexao.abrirConexao();
-        String query = "UPDATE `usuario_time` SET data_entrada=?, id_usuario=?, id_time=?, cargo=?, id_funcao_time=?  WHERE id_usuario_time=?";
+        String query = "UPDATE `usuario_time` SET data_entrada=?, cargo=?, id_funcao_time=? , id_usuario=?, id_time=?  WHERE id_usuario_time=?";
         try {
             PreparedStatement st = this.conexao.getConexao().prepareStatement(query);
 
             st.setTimestamp(1, ConversaoDeData.localDateTimeToTimestamp(ut.getDataEntrada()));
-            st.setLong(2, ut.getUsuario().getIdUsuario());
-            st.setLong(3, ut.getTime().getIdTime());
-            st.setString(4, ut.getCargo());
-            st.setLong(5, ut.getFuncaoTime().getIdFuncaoTime());
+            st.setString(2, ut.getCargo());
+            st.setLong(3, ut.getFuncaoTime().getIdFuncaoTime());
+            st.setLong(4, ut.getUsuario().getIdUsuario());
+            st.setLong(5, ut.getTime().getIdTime());
+            st.setLong(6, idUsuarioTime);
 
             st.executeUpdate();
         } catch (SQLException error) {

@@ -71,12 +71,45 @@ public class UsuarioTimeController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UsuarioTimeDto> getUsuarioTimeById(@PathVariable("id") long id) {
+    public ResponseEntity<UsuarioTimeFullDto> getUsuarioTimeById(@PathVariable("id") long id) {
         log.info("GET /usuario_time/" + id);
 
         UsuarioTime ut = usuarioTimeDao.findById(id);
-        UsuarioTimeDto dto = new UsuarioTimeDto(ut.getIdUsuarioTime(), ut.getDataEntrada(), ut.getCargo(),
-                ut.getUsuario().getIdUsuario(), ut.getTime().getIdTime(), ut.getFuncaoTime().getIdFuncaoTime());
+
+        log.info(ut.toString());
+
+        UsuarioTimeFullDto dto = new UsuarioTimeFullDto();
+        Usuario u = ut.getUsuario();
+        Time t = ut.getTime();
+        FuncaoTime ft = ut.getFuncaoTime();
+
+        UsuarioDto usuarioDto = new UsuarioDto();
+        usuarioDto.setIdUsuario(u.getIdUsuario());
+        usuarioDto.setUsername(u.getUsername());
+        usuarioDto.setEmail(u.getEmail());
+        usuarioDto.setSenha(u.getSenha());
+        usuarioDto.setDataCriacao(u.getDataCriacao());
+        usuarioDto.setFotoPerfil(u.getFotoPerfil());
+
+        TimeDto timeDto = new TimeDto();
+        timeDto.setIdTime(t.getIdTime());
+        timeDto.setNomeTime(t.getNomeTime());
+        timeDto.setNumVitoria(t.getNumVitoria());
+        timeDto.setNumEmpate(t.getNumEmpate());
+        timeDto.setNumDerrota(t.getNumDerrota());
+        timeDto.setDataCriacao(t.getDataCriacao());
+        timeDto.setFotoTime(t.getFotoTime());
+
+        FuncaoTimeDto ftDto = new FuncaoTimeDto();
+        ftDto.setIdFuncaoTime(ft.getIdFuncaoTime());
+        ftDto.setNome(ft.getNome());
+
+        dto.setIdUsuarioTime(ut.getIdUsuarioTime());
+        dto.setDataEntrada(ut.getDataEntrada());
+        dto.setCargo(ut.getCargo());
+        dto.setUsuario(usuarioDto);
+        dto.setTime(timeDto);
+        dto.setFuncaoTime(ftDto);
 
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
@@ -129,7 +162,7 @@ public class UsuarioTimeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> put(@PathVariable("id") long id, @RequestBody UsuarioTime ut) {
+    public ResponseEntity<Void> put(@PathVariable("id") long id, @RequestBody UsuarioTimeFullDto ut) {
         log.info("PUT /usuario_time/" + id);
 
         usuarioTimeDao.putUsuarioTime(ut, id);

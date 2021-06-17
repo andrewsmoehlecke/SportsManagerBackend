@@ -19,12 +19,13 @@ public class UsuarioTime {
         this.funcaoTime = new FuncaoTime();
     }
 
-    public UsuarioTime(long idUsuarioTime, LocalDateTime dataEntrada, Usuario usuario, Time time, String cargo, FuncaoTime funcaoTime) {
+    public UsuarioTime(long idUsuarioTime, LocalDateTime dataEntrada, Usuario usuario, Time time, String cargo,
+            FuncaoTime funcaoTime) {
         this.idUsuarioTime = idUsuarioTime;
         this.dataEntrada = dataEntrada;
         this.usuario = usuario;
         this.time = time;
-        this.cargo = "";
+        this.cargo = cargo;
         this.funcaoTime = funcaoTime;
     }
 
@@ -68,19 +69,18 @@ public class UsuarioTime {
         this.time = time;
     }
 
+    public FuncaoTime getFuncaoTime() {
+        return funcaoTime;
+    }
 
-	public FuncaoTime getFuncaoTime() {
-		return funcaoTime;
-	}
+    public void setFuncaoTime(FuncaoTime funcaoTime) {
+        this.funcaoTime = funcaoTime;
+    }
 
-	public void setFuncaoTime(FuncaoTime funcaoTime) {
-		this.funcaoTime = funcaoTime;
-	}
-
-	@Override
-	public String toString() {
-		return "UsuarioTime [idUsuarioTime=" + idUsuarioTime + ", dataEntrada=" + dataEntrada + ", usuario=" + usuario
-				+ ", time=" + time + ", cargo=" + cargo + ", funcaoTime=" + funcaoTime + "]";
-	}
+    @Override
+    public String toString() {
+        return "UsuarioTime [idUsuarioTime=" + idUsuarioTime + ", dataEntrada=" + dataEntrada + ", usuario=" + usuario
+                + ", time=" + time + ", cargo=" + cargo + ", funcaoTime=" + funcaoTime + "]";
+    }
 
 }
