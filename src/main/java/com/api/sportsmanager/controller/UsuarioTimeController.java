@@ -76,8 +76,6 @@ public class UsuarioTimeController {
 
         UsuarioTime ut = usuarioTimeDao.findById(id);
 
-        log.info(ut.toString());
-
         UsuarioTimeFullDto dto = new UsuarioTimeFullDto();
         Usuario u = ut.getUsuario();
         Time t = ut.getTime();
