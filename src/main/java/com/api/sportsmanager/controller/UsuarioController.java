@@ -68,9 +68,17 @@ public class UsuarioController {
             u.setSenha(dto.getSenha());
             u.setFotoPerfil(dto.getFotoPerfil());
 
-            if (usuarioDao.postUsuario(u) != null) {
-                log.info("User " + dto.getUsername() + " created");
-                return new ResponseEntity<>(dto, HttpStatus.OK);
+            Usuario usuarioCriado = usuarioDao.postUsuario(u);
+            if (usuarioCriado != null) {
+                UsuarioDto usuarioDto = new UsuarioDto();
+
+                usuarioDto.setIdUsuario(usuarioCriado.getIdUsuario());
+                usuarioDto.setUsername(usuarioCriado.getUsername());
+                usuarioDto.setEmail(usuarioCriado.getEmail());
+                usuarioDto.setSenha(usuarioCriado.getSenha());
+                usuarioDto.setFotoPerfil(usuarioCriado.getFotoPerfil());
+
+                return new ResponseEntity<>(usuarioDto, HttpStatus.OK);
             } else {
                 return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
             }
